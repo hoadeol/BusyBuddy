@@ -41,7 +41,7 @@ public class Task {
   @Column(name = "DUE_DT")
   private LocalDateTime dueDate = LocalDateTime.now().toLocalDate().plusDays(1).atStartOfDay();
   @Enumerated(EnumType.STRING)
-  private Priority priority;
+  private Priority priority = Priority.NORMAL;
   @Column(name = "COMPLETE_YN")
   private Boolean isCompleted = false;
   @Column(name = "COMPLETE_DT")
