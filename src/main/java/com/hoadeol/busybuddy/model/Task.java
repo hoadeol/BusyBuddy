@@ -2,6 +2,8 @@ package com.hoadeol.busybuddy.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -38,7 +40,8 @@ public class Task {
   private String content;
   @Column(name = "DUE_DT")
   private LocalDateTime dueDate = LocalDateTime.now().toLocalDate().plusDays(1).atStartOfDay();
-  private Integer priority;
+  @Enumerated(EnumType.STRING)
+  private Priority priority;
   @Column(name = "COMPLETE_YN")
   private Boolean isCompleted = false;
   @Column(name = "COMPLETE_DT")
