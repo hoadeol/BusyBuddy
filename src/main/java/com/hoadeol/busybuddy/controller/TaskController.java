@@ -4,7 +4,7 @@ import com.hoadeol.busybuddy.dto.TaskDTO;
 import com.hoadeol.busybuddy.service.TaskService;
 import jakarta.validation.Valid;
 import java.util.List;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
