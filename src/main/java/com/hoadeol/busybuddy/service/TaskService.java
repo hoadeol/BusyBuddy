@@ -1,11 +1,15 @@
 package com.hoadeol.busybuddy.service;
 
 import com.hoadeol.busybuddy.dto.TaskDTO;
-import com.hoadeol.busybuddy.exception.TaskNotFoundException;
+import com.hoadeol.busybuddy.exception.CategoryException;
+import com.hoadeol.busybuddy.exception.MemberException;
+import com.hoadeol.busybuddy.exception.TaskException;
+import com.hoadeol.busybuddy.mapper.TaskMapper;
 import com.hoadeol.busybuddy.model.Task;
+import com.hoadeol.busybuddy.repository.CategoryRepository;
+import com.hoadeol.busybuddy.repository.MemberRepository;
 import com.hoadeol.busybuddy.repository.TaskRepository;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,49 +20,65 @@ import org.springframework.transaction.annotation.Transactional;
 public class TaskService {
 
   private final TaskRepository taskRepository;
-  private final TaskMappingService taskMappingService;
+  private final MemberRepository memberRepository;
+  private final CategoryRepository categoryRepository;
 
   // 모든 Task 조회
   public List<TaskDTO> getAllTasks() {
     List<Task> tasks = taskRepository.findAll();
-    return taskMappingService.mapEntityListToDTOList(tasks);
+    return TaskMapper.INSTANCE.toDTOList(tasks);
   }
 
   // Task ID로 조회
-  public Optional<TaskDTO> getTaskById(Long taskId) {
-    Optional<Task> task = taskRepository.findById(taskId);
-    return task.map(taskMappingService::mapEntityToDTO);
+  public TaskDTO getTaskById(Long taskId) {
+    Task task = taskRepository.findById(taskId)
+        .orElseThrow(() -> TaskException.notFound(taskId));
+    return TaskMapper.INSTANCE.toDTO(task);
   }
 
   // Member ID로 해당 Member의 Task 목록 조회
   public List<TaskDTO> getTasksByMemberId(String memberId) {
+    memberRepository.findById(memberId)
+        .orElseThrow(() -> MemberException.notFound(memberId));
+
     List<Task> tasks = taskRepository.findByMemberId(memberId);
-    return taskMappingService.mapEntityListToDTOList(tasks);
+    return TaskMapper.INSTANCE.toDTOList(tasks);
   }
 
   // Category ID로 해당 Category의 Task 목록 조회
   public List<TaskDTO> getTasksByCategoryId(Long categoryId) {
+    categoryRepository.findById(categoryId)
+        .orElseThrow(() -> CategoryException.notFound(categoryId));
+
     List<Task> tasks = taskRepository.findByCategoryId(categoryId);
-    return taskMappingService.mapEntityListToDTOList(tasks);
+    return TaskMapper.INSTANCE.toDTOList(tasks);
   }
 
   // Task 저장
   @Transactional
   public TaskDTO saveTask(TaskDTO taskDTO) {
-    Task task = taskMappingService.mapDTOToEntity(taskDTO);
+    Task task = TaskMapper.INSTANCE.toEntity(taskDTO);
     Task savedTask = taskRepository.save(task);
-    return taskMappingService.mapEntityToDTO(savedTask);
+    return TaskMapper.INSTANCE.toDTO(savedTask);
   }
 
   // Task 업데이트
   @Transactional
   public TaskDTO updateTask(Long taskId, TaskDTO updatedTaskDTO) {
     Task existingTask = taskRepository.findById(taskId)
-        .orElseThrow(() -> new TaskNotFoundException(taskId));
-    taskMappingService.mapDTOToEntity(updatedTaskDTO, existingTask);
+        .orElseThrow(() -> TaskException.notFound(taskId));
 
-    Task updatedTask = taskRepository.save(existingTask);
-    return taskMappingService.mapEntityToDTO(updatedTask);
+    validateTaskDTO(updatedTaskDTO, existingTask);
+    Task updatedTask = TaskMapper.INSTANCE.toEntity(updatedTaskDTO);
+
+    existingTask.update(updatedTask);
+    return updatedTaskDTO;
+  }
+
+  private void validateTaskDTO(TaskDTO taskDTO, Task existingTask) {
+    if (!taskDTO.getId().equals(existingTask.getId())) {
+      throw TaskException.idMismatch(existingTask.getId());
+    }
   }
 
   // Task 삭제

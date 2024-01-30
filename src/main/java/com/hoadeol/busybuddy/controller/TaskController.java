@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/tasks")
 @Validated
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TaskController {
 
   private final TaskService taskService;
@@ -31,9 +31,8 @@ public class TaskController {
 
   @GetMapping("/{taskId}")
   public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long taskId) {
-    return taskService.getTaskById(taskId)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+    TaskDTO task = taskService.getTaskById(taskId);
+    return ResponseEntity.ok(task);
   }
 
   @GetMapping("/member/{memberId}")

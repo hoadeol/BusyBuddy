@@ -65,4 +65,16 @@ public class Task {
 
   @Column(name = "REG_DT")
   private LocalDateTime registrationDate = LocalDateTime.now();
+
+
+  public void update(Task updatedTask) {
+    this.category = updatedTask.getCategory();
+    this.title = updatedTask.getTitle();
+    this.content = updatedTask.getContent();
+    this.dueDate = updatedTask.getDueDate();
+    this.priority = updatedTask.getPriority();
+    this.isCompleted = updatedTask.getIsCompleted();
+    this.completeDate = updatedTask.getCompleteDate();
+    //TODO 수정일자 추가
+  }
 }
