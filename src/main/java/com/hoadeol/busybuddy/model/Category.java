@@ -9,14 +9,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 @ToString(exclude = "member")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
 
   @Id
@@ -26,8 +30,8 @@ public class Category {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "MEMBER_ID", nullable = false)
   private Member member;
-  @Column(length = 30)
+  @Column(name = "CATE_NAME", length = 30)
   @Size(max = 30)
-  private String cateName;
+  private String name;
 
 }

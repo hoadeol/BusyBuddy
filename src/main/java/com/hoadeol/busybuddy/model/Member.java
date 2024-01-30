@@ -10,14 +10,16 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
-@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
   @GeneratedValue
@@ -26,9 +28,9 @@ public class Member {
   @Size(max = 30)
   private String id;
 
-  @Column(nullable = false, length = 30)
+  @Column(name = "MEMBER_NAME", nullable = false, length = 30)
   @Size(max = 30)
-  private String memberName;
+  private String name;
 
   @Column(unique = true, length = 50)
   @Email
