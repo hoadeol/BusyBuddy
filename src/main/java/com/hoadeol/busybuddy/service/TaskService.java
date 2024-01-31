@@ -96,6 +96,10 @@ public class TaskService {
   // Task 삭제
   @Transactional
   public void deleteTask(Long taskId) {
+    if (!taskRepository.existsById(taskId)) {
+      throw TaskException.notFound(taskId);
+    }
+
     taskRepository.deleteById(taskId);
   }
 
