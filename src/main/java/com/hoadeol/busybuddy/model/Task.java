@@ -1,6 +1,7 @@
 package com.hoadeol.busybuddy.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -59,16 +60,12 @@ public class Task {
   @Builder.Default
   private Priority priority = Priority.NORMAL;
 
-  @Column(name = "COMPLETE_YN")
-  @Builder.Default
-  private Boolean isCompleted = false;
-
-  @Column(name = "COMPLETE_DT")
-  private LocalDateTime completeDate;
-
   @Column(name = "REG_DT")
   @Builder.Default
   private LocalDateTime registrationDate = LocalDateTime.now();
+
+  @Embedded
+  private CompletionDetails completionDetails;
 
 
   public void update(Task updatedTask) {
@@ -77,8 +74,7 @@ public class Task {
     this.content = updatedTask.getContent();
     this.dueDate = updatedTask.getDueDate();
     this.priority = updatedTask.getPriority();
-    this.isCompleted = updatedTask.getIsCompleted();
-    this.completeDate = updatedTask.getCompleteDate();
+    this.completionDetails = updatedTask.getCompletionDetails();
     //TODO 수정일자 추가
   }
 }

@@ -15,10 +15,14 @@ public interface TaskMapper {
 
   @Mapping(target = "memberId", source = "member.id")
   @Mapping(target = "categoryId", source = "category.id")
+  @Mapping(target = "isCompleted", source = "completionDetails.isCompleted")
+  @Mapping(target = "completeDate", source = "completionDetails.completeDate")
   TaskDTO toDTO(Task task);
 
   @Mapping(target = "member.id", source = "memberId")
   @Mapping(target = "category.id", source = "categoryId")
+  @Mapping(target = "completionDetails.isCompleted", source = "isCompleted")
+  @Mapping(target = "completionDetails.completeDate", source = "completeDate")
   Task toEntity(TaskDTO taskDTO);
 
   @IterableMapping(elementTargetType = TaskDTO.class)
