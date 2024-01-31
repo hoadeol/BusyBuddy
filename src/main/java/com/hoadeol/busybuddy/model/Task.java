@@ -52,18 +52,22 @@ public class Task {
 
   @Future(message = "마감일은 현재 시간 이후여야 합니다.")
   @Column(name = "DUE_DT")
+  @Builder.Default
   private LocalDateTime dueDate = LocalDateTime.now().toLocalDate().plusDays(1).atStartOfDay();
 
   @Enumerated(EnumType.STRING)
+  @Builder.Default
   private Priority priority = Priority.NORMAL;
 
   @Column(name = "COMPLETE_YN")
+  @Builder.Default
   private Boolean isCompleted = false;
 
   @Column(name = "COMPLETE_DT")
   private LocalDateTime completeDate;
 
   @Column(name = "REG_DT")
+  @Builder.Default
   private LocalDateTime registrationDate = LocalDateTime.now();
 
 

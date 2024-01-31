@@ -44,9 +44,11 @@ public class Member {
   private String password;
 
   @Column(name = "REG_DT")
+  @Builder.Default
   private LocalDateTime registrationDate = LocalDateTime.now();
 
   @Column(name = "LAST_LOGIN_DT")
+  @Builder.Default
   private LocalDateTime lastLoginDate = LocalDateTime.now();
 
 }
