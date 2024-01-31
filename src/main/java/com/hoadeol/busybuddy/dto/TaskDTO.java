@@ -3,7 +3,6 @@ package com.hoadeol.busybuddy.dto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +12,8 @@ import lombok.Data;
 @Valid
 public class TaskDTO {
 
-  @NotNull
   private Long id;
 
-  @NotBlank
   private Long memberId;
 
   private Long categoryId;
