@@ -11,9 +11,11 @@ import com.hoadeol.busybuddy.repository.MemberRepository;
 import com.hoadeol.busybuddy.repository.TaskRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -70,17 +72,9 @@ public class TaskService {
     Task existingTask = taskRepository.findById(taskId)
         .orElseThrow(() -> TaskException.notFound(taskId));
 
-    validateTaskDTO(updatedTaskDTO, existingTask);
     Task updatedTask = TaskMapper.INSTANCE.toEntity(updatedTaskDTO);
-
     existingTask.update(updatedTask);
-    return updatedTaskDTO;
-  }
-
-  private void validateTaskDTO(TaskDTO taskDTO, Task existingTask) {
-    if (!taskDTO.getId().equals(existingTask.getId())) {
-      throw TaskException.idMismatch(existingTask.getId());
-    }
+    return TaskMapper.INSTANCE.toDTO(existingTask);
   }
 
   // Task 삭제
