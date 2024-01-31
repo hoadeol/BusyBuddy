@@ -38,8 +38,9 @@ public class TaskService {
 
   // Member ID로 해당 Member의 Task 목록 조회
   public List<TaskDTO> getTasksByMemberId(Long memberId) {
-    memberRepository.findById(memberId)
-        .orElseThrow(() -> MemberException.notFound(memberId));
+    if (!memberRepository.existsById(memberId)) {
+      throw MemberException.notFound(memberId);
+    }
 
     List<Task> tasks = taskRepository.findByMemberId(memberId);
     return TaskMapper.INSTANCE.toDTOList(tasks);
@@ -47,8 +48,9 @@ public class TaskService {
 
   // Category ID로 해당 Category의 Task 목록 조회
   public List<TaskDTO> getTasksByCategoryId(Long categoryId) {
-    categoryRepository.findById(categoryId)
-        .orElseThrow(() -> CategoryException.notFound(categoryId));
+    if (!categoryRepository.existsById(categoryId)) {
+      throw CategoryException.notFound(categoryId);
+    }
 
     List<Task> tasks = taskRepository.findByCategoryId(categoryId);
     return TaskMapper.INSTANCE.toDTOList(tasks);
