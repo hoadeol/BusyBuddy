@@ -22,11 +22,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
-  @GeneratedValue
   @Id
-  @Column(name = "MEMBER_ID", length = 30)
+  @GeneratedValue
+  @Column(name = "MEMBER_ID")
+  private Long id;
+
+  @Column(unique = true, nullable = false, length = 30)
   @Size(max = 30)
-  private String id;
+  private String account;
 
   @Column(name = "MEMBER_NAME", nullable = false, length = 30)
   @Size(max = 30)

@@ -36,7 +36,7 @@ public class TaskController {
   }
 
   @GetMapping("/member/{memberId}")
-  public List<TaskDTO> getTasksByMemberId(@PathVariable String memberId) {
+  public List<TaskDTO> getTasksByMemberId(@PathVariable Long memberId) {
     return taskService.getTasksByMemberId(memberId);
   }
 

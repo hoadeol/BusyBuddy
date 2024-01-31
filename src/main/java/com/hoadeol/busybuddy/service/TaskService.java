@@ -37,7 +37,7 @@ public class TaskService {
   }
 
   // Member ID로 해당 Member의 Task 목록 조회
-  public List<TaskDTO> getTasksByMemberId(String memberId) {
+  public List<TaskDTO> getTasksByMemberId(Long memberId) {
     memberRepository.findById(memberId)
         .orElseThrow(() -> MemberException.notFound(memberId));
 

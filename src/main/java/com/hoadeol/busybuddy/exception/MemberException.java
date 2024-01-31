@@ -6,7 +6,7 @@ public class MemberException extends RuntimeException {
     super(message);
   }
 
-  public static MemberException notFound(String memberId) {
+  public static MemberException notFound(Long memberId) {
     return new MemberException("Member not found with ID: " + memberId);
   }
 }
