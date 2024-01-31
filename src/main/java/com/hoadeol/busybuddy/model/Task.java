@@ -15,18 +15,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Data
+@Getter
 @ToString(exclude = {"member", "category"})
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class Task {
 
   @GeneratedValue
@@ -67,6 +65,20 @@ public class Task {
   @Embedded
   private CompletionDetails completionDetails;
 
+  @Builder
+  public Task(Long id, Member member, Category category, String title, String content,
+      LocalDateTime dueDate, Priority priority, LocalDateTime registrationDate,
+      CompletionDetails completionDetails) {
+    this.id = id;
+    this.member = member;
+    this.category = category;
+    this.title = title;
+    this.content = content;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    this.registrationDate = registrationDate;
+    this.completionDetails = completionDetails;
+  }
 
   public void update(Task updatedTask) {
     this.category = updatedTask.getCategory();

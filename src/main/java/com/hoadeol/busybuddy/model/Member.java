@@ -10,16 +10,16 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
-@Data
-@Builder
-@AllArgsConstructor
+@Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class Member {
 
   @Id
@@ -53,5 +53,17 @@ public class Member {
   @Column(name = "LAST_LOGIN_DT")
   @Builder.Default
   private LocalDateTime lastLoginDate = LocalDateTime.now();
+
+  @Builder
+  public Member(Long id, String account, String name, String email, String password,
+      LocalDateTime registrationDate, LocalDateTime lastLoginDate) {
+    this.id = id;
+    this.account = account;
+    this.name = name;
+    this.email = email;
+    this.password = password;
+    this.registrationDate = registrationDate;
+    this.lastLoginDate = lastLoginDate;
+  }
 
 }
