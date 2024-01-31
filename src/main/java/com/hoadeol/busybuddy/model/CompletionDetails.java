@@ -26,6 +26,6 @@ public class CompletionDetails {
   @Builder
   public CompletionDetails(Boolean isCompleted, LocalDateTime completeDate) {
     this.isCompleted = isCompleted;
-    this.completeDate = completeDate;
+    this.completeDate = isCompleted ? completeDate : null;
   }
 }

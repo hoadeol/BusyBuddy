@@ -80,13 +80,17 @@ public class Task {
     this.completionDetails = completionDetails;
   }
 
-  public void update(Task updatedTask) {
-    this.category = updatedTask.getCategory();
-    this.title = updatedTask.getTitle();
-    this.content = updatedTask.getContent();
-    this.dueDate = updatedTask.getDueDate();
-    this.priority = updatedTask.getPriority();
-    this.completionDetails = updatedTask.getCompletionDetails();
+  public Task update(Category category, String title, String content, LocalDateTime dueDate,
+      Priority priority, CompletionDetails completionDetails) {
+    this.category = category;
+    this.title = title;
+    this.content = content;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    this.completionDetails = completionDetails;
     //TODO 수정일자 추가
+    //this.lastModifiedDate = LocalDateTime.now();
+
+    return this;
   }
 }

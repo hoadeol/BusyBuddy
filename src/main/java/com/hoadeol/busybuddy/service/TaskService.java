@@ -5,11 +5,15 @@ import com.hoadeol.busybuddy.exception.CategoryException;
 import com.hoadeol.busybuddy.exception.MemberException;
 import com.hoadeol.busybuddy.exception.TaskException;
 import com.hoadeol.busybuddy.mapper.TaskMapper;
+import com.hoadeol.busybuddy.model.Category;
+import com.hoadeol.busybuddy.model.CompletionDetails;
+import com.hoadeol.busybuddy.model.Priority;
 import com.hoadeol.busybuddy.model.Task;
 import com.hoadeol.busybuddy.repository.CategoryRepository;
 import com.hoadeol.busybuddy.repository.MemberRepository;
 import com.hoadeol.busybuddy.repository.TaskRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -72,8 +76,20 @@ public class TaskService {
     Task existingTask = taskRepository.findById(taskId)
         .orElseThrow(() -> TaskException.notFound(taskId));
 
-    Task updatedTask = TaskMapper.INSTANCE.toEntity(updatedTaskDTO);
-    existingTask.update(updatedTask);
+    Category category = getCategoryById(updatedTaskDTO.getCategoryId());
+
+    Priority priority = Optional.ofNullable(updatedTaskDTO.getPriority())
+        .map(Priority::fromString)
+        .orElse(null);
+
+    CompletionDetails completionDetails = CompletionDetails.builder()
+        .isCompleted(updatedTaskDTO.getIsCompleted())
+        .completeDate(updatedTaskDTO.getCompleteDate())
+        .build();
+
+    existingTask.update(category, updatedTaskDTO.getTitle(), updatedTaskDTO.getContent(),
+        updatedTaskDTO.getDueDate(), priority, completionDetails);
+
     return TaskMapper.INSTANCE.toDTO(existingTask);
   }
 
@@ -83,4 +99,8 @@ public class TaskService {
     taskRepository.deleteById(taskId);
   }
 
+  private Category getCategoryById(Long categoryId) {
+    return categoryId != null ? categoryRepository.findById(categoryId)
+        .orElseThrow(() -> CategoryException.notFound(categoryId)) : null;
+  }
 }
