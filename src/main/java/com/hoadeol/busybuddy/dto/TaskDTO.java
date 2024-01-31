@@ -17,7 +17,7 @@ public class TaskDTO {
   private Long id;
 
   @NotBlank
-  private String memberId;
+  private Long memberId;
 
   private Long categoryId;
 
