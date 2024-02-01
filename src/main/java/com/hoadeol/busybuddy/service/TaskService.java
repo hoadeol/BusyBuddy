@@ -101,10 +101,7 @@ public class TaskService {
         .orElse(LocalDateTime.now().with(LocalTime.MAX));
     log.debug("Due Date: {}", dueDate);
 
-    Priority priority = Optional.ofNullable(updatedTaskDTO.getPriority())
-        .map(Priority::fromString)
-        .orElse(null);
-    log.debug("Priority: {}", priority);
+    Priority priority = Priority.valueOf(updatedTaskDTO.getPriority());
 
     CompletionDetails completionDetails = CompletionDetails.builder()
         .isCompleted(updatedTaskDTO.getIsCompleted())
