@@ -5,6 +5,7 @@ import com.hoadeol.busybuddy.service.TaskService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/tasks")
 @Validated
@@ -23,10 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class TaskController {
 
   private final TaskService taskService;
+  private static final String X_TOTAL_COUNT = "X-Total-Count";
 
   @GetMapping
-  public List<TaskDTO> getAllTasks() {
-    return taskService.getAllTasks();
+  public ResponseEntity<List<TaskDTO>> getAllTasks() {
+    log.info("Received request to get all tasks.");
+    List<TaskDTO> allTasks = taskService.getAllTasks();
+    log.info("Retrieved {} tasks.", allTasks.size());
+    return ResponseEntity.ok()
+        .header(X_TOTAL_COUNT, String.valueOf(allTasks.size()))
+        .body(allTasks);
   }
 
   @GetMapping("/{taskId}")
@@ -36,13 +44,19 @@ public class TaskController {
   }
 
   @GetMapping("/member/{memberId}")
-  public List<TaskDTO> getTasksByMemberId(@PathVariable Long memberId) {
-    return taskService.getTasksByMemberId(memberId);
+  public ResponseEntity<List<TaskDTO>> getTasksByMemberId(@PathVariable Long memberId) {
+    List<TaskDTO> tasks = taskService.getTasksByMemberId(memberId);
+    return ResponseEntity.ok()
+        .header(X_TOTAL_COUNT, String.valueOf(tasks.size()))
+        .body(tasks);
   }
 
   @GetMapping("/category/{categoryId}")
-  public List<TaskDTO> getTasksByCategoryId(@PathVariable Long categoryId) {
-    return taskService.getTasksByCategoryId(categoryId);
+  public ResponseEntity<List<TaskDTO>> getTasksByCategoryId(@PathVariable Long categoryId) {
+    List<TaskDTO> tasks = taskService.getTasksByCategoryId(categoryId);
+    return ResponseEntity.ok()
+        .header(X_TOTAL_COUNT, String.valueOf(tasks.size()))
+        .body(tasks);
   }
 
   @PostMapping
