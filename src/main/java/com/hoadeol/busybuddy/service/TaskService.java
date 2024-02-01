@@ -45,7 +45,8 @@ public class TaskService {
   public TaskDTO getTaskById(Long taskId) {
     log.info("Fetching task by ID: {}", taskId);
     Task task = taskRepository.findById(taskId)
-        .orElseThrow(() -> TaskException.notFound(taskId));
+        .orElseThrow(() -> new CustomException(taskId, TASK_NOT_FOUND));
+    log.info("Fetched task successfully. Task ID: {}", taskId);
     return TaskMapper.INSTANCE.toDTO(task);
   }
 
@@ -53,7 +54,8 @@ public class TaskService {
   public List<TaskDTO> getTasksByMemberId(Long memberId) {
     log.info("Fetching tasks by Member ID: {}", memberId);
     if (!memberRepository.existsById(memberId)) {
-      throw MemberException.notFound(memberId);
+      log.warn("Attempted to get non-existent task with memberID: {}", memberId);
+      throw new CustomException(memberId, MEMBER_NOT_FOUND);
     }
 
     List<Task> tasks = taskRepository.findByMemberId(memberId);
@@ -65,7 +67,8 @@ public class TaskService {
   public List<TaskDTO> getTasksByCategoryId(Long categoryId) {
     log.info("Fetching tasks by Category ID: {}", categoryId);
     if (!categoryRepository.existsById(categoryId)) {
-      throw CategoryException.notFound(categoryId);
+      log.warn("Attempted to get non-existent task with categoryId: {}", categoryId);
+      throw new CustomException(categoryId, CATEGORY_NOT_FOUND);
     }
 
     List<Task> tasks = taskRepository.findByCategoryId(categoryId);
@@ -89,7 +92,7 @@ public class TaskService {
     log.info("Updating task with ID: {}", taskId);
 
     Task existingTask = taskRepository.findById(taskId)
-        .orElseThrow(() -> TaskException.notFound(taskId));
+        .orElseThrow(() -> new CustomException(taskId, TASK_NOT_FOUND));
 
     Category category = getCategoryById(updatedTaskDTO.getCategoryId());
     log.debug("Category: {}", category);
@@ -120,7 +123,8 @@ public class TaskService {
   @Transactional
   public void deleteTask(Long taskId) {
     if (!taskRepository.existsById(taskId)) {
-      throw TaskException.notFound(taskId);
+      log.warn("Attempted to delete non-existent task with ID: {}", taskId);
+      throw new CustomException(taskId, TASK_NOT_FOUND);
     }
 
     taskRepository.deleteById(taskId);
@@ -129,6 +133,7 @@ public class TaskService {
 
   private Category getCategoryById(Long categoryId) {
     return categoryId != null ? categoryRepository.findById(categoryId)
-        .orElseThrow(() -> CategoryException.notFound(categoryId)) : null;
+        .orElseThrow(() -> new CustomException(categoryId, CATEGORY_NOT_FOUND))
+        : null;
   }
 }

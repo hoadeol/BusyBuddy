@@ -1,6 +1,7 @@
 package com.hoadeol.busybuddy.exception;
 
 import com.hoadeol.busybuddy.constants.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -10,12 +11,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   protected ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
+    log.error("MethodArgumentNotValidException occurred", ex);
+
     BindingResult bindingResult = ex.getBindingResult();
     FieldError fieldError = bindingResult.getFieldError();
     String errorMessage =
@@ -26,6 +30,8 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(CustomException.class)
   protected ResponseEntity<String> handleCustomException(CustomException ex) {
+    log.error("CustomException occurred", ex);
+
     ErrorCode errorCode = ex.getErrorCode();
     return ResponseEntity
         .status(errorCode.getStatus())
@@ -33,7 +39,9 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(Exception.class)
-  protected ResponseEntity<String> handleServerException() {
+  protected ResponseEntity<String> handleServerException(Exception ex) {
+    log.error("Exception occurred", ex);
+
     return ResponseEntity
         .internalServerError()
         .body(ErrorCode.INTERNAL_SERVER_ERROR.getMessage());
