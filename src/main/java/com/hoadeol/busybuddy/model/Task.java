@@ -61,7 +61,8 @@ public class Task {
   private Priority priority = Priority.NORMAL;
 
   @Embedded
-  private CompletionDetails completionDetails;
+  @Builder.Default
+  private CompletionDetails completionDetails = new CompletionDetails();
 
   @Column(name = "REG_DT")
   @Builder.Default

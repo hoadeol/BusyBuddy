@@ -51,8 +51,7 @@ public class Member {
   private LocalDateTime registrationDate = LocalDateTime.now();
 
   @Column(name = "LAST_LOGIN_DT")
-  @Builder.Default
-  private LocalDateTime lastLoginDate = LocalDateTime.now();
+  private LocalDateTime lastLoginDate;
 
   @Builder
   public Member(Long id, String account, String name, String email, String password,
