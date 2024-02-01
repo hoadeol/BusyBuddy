@@ -56,6 +56,7 @@ public class Task {
   private LocalDateTime dueDate = LocalDateTime.now().with(LocalTime.MAX);
 
   @Enumerated(EnumType.STRING)
+  @Column(length = 10)
   @Builder.Default
   private Priority priority = Priority.NORMAL;
 
