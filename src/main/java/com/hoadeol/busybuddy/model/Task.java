@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,7 +53,7 @@ public class Task {
   @Future(message = "마감일은 현재 시간 이후여야 합니다.")
   @Column(name = "DUE_DT")
   @Builder.Default
-  private LocalDateTime dueDate = LocalDateTime.now().toLocalDate().plusDays(1).atStartOfDay();
+  private LocalDateTime dueDate = LocalDateTime.now().with(LocalTime.MAX);
 
   @Enumerated(EnumType.STRING)
   @Builder.Default

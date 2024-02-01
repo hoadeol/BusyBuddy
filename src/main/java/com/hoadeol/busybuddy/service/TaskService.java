@@ -12,6 +12,8 @@ import com.hoadeol.busybuddy.model.Task;
 import com.hoadeol.busybuddy.repository.CategoryRepository;
 import com.hoadeol.busybuddy.repository.MemberRepository;
 import com.hoadeol.busybuddy.repository.TaskRepository;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +80,9 @@ public class TaskService {
 
     Category category = getCategoryById(updatedTaskDTO.getCategoryId());
 
+    LocalDateTime dueDate = Optional.ofNullable(updatedTaskDTO.getDueDate())
+        .orElse(LocalDateTime.now().with(LocalTime.MAX));
+
     Priority priority = Optional.ofNullable(updatedTaskDTO.getPriority())
         .map(Priority::fromString)
         .orElse(null);
@@ -88,7 +93,7 @@ public class TaskService {
         .build();
 
     existingTask.update(category, updatedTaskDTO.getTitle(), updatedTaskDTO.getContent(),
-        updatedTaskDTO.getDueDate(), priority, completionDetails);
+        dueDate, priority, completionDetails);
 
     return TaskMapper.INSTANCE.toDTO(existingTask);
   }
