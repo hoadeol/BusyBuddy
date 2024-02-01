@@ -1,17 +1,15 @@
 package com.hoadeol.busybuddy.exception;
 
-public class TaskException extends RuntimeException {
+import com.hoadeol.busybuddy.constants.ErrorCode;
 
-  public TaskException(String message) {
-    super(message);
+public class TaskException extends CustomException {
+
+  public TaskException(String message, ErrorCode errorCode) {
+    super(message, errorCode);
   }
 
   public static TaskException notFound(Long taskId) {
-    return new TaskException("Task not found with ID: " + taskId);
-  }
-
-  public static TaskException idMismatch(Long taskId) {
-    return new TaskException(
-        "Task ID in the request body does not match the provided ID: " + taskId);
+    return new TaskException("Task not found with ID: " + taskId,
+        ErrorCode.TASK_NOT_FOUND);
   }
 }

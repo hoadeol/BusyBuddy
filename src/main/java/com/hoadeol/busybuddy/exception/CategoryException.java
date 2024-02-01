@@ -1,12 +1,15 @@
 package com.hoadeol.busybuddy.exception;
 
-public class CategoryException extends RuntimeException {
+import com.hoadeol.busybuddy.constants.ErrorCode;
 
-  public CategoryException(String message) {
-    super(message);
+public class CategoryException extends CustomException {
+
+  public CategoryException(String message, ErrorCode errorCode) {
+    super(message, errorCode);
   }
 
   public static CategoryException notFound(Long categoryId) {
-    return new CategoryException("Category not found with ID: " + categoryId);
+    return new CategoryException("Category not found with ID: " + categoryId,
+        ErrorCode.CATEGORY_NOT_FOUND);
   }
 }
