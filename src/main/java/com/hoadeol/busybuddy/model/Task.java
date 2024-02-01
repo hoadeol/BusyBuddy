@@ -59,17 +59,20 @@ public class Task {
   @Builder.Default
   private Priority priority = Priority.NORMAL;
 
+  @Embedded
+  private CompletionDetails completionDetails;
+
   @Column(name = "REG_DT")
   @Builder.Default
   private LocalDateTime registrationDate = LocalDateTime.now();
 
-  @Embedded
-  private CompletionDetails completionDetails;
+  @Column(name = "MOD_DT")
+  private LocalDateTime lastModifiedDate;
 
   @Builder
   public Task(Long id, Member member, Category category, String title, String content,
-      LocalDateTime dueDate, Priority priority, LocalDateTime registrationDate,
-      CompletionDetails completionDetails) {
+      LocalDateTime dueDate, Priority priority, CompletionDetails completionDetails,
+      LocalDateTime registrationDate, LocalDateTime lastModifiedDate) {
     this.id = id;
     this.member = member;
     this.category = category;
@@ -77,8 +80,9 @@ public class Task {
     this.content = content;
     this.dueDate = dueDate;
     this.priority = priority;
-    this.registrationDate = registrationDate;
     this.completionDetails = completionDetails;
+    this.registrationDate = registrationDate;
+    this.lastModifiedDate = lastModifiedDate;
   }
 
   public Task update(Category category, String title, String content, LocalDateTime dueDate,
@@ -89,9 +93,7 @@ public class Task {
     this.dueDate = dueDate;
     this.priority = priority;
     this.completionDetails = completionDetails;
-    //TODO 수정일자 추가
-    //this.lastModifiedDate = LocalDateTime.now();
-
+    this.lastModifiedDate = LocalDateTime.now();
     return this;
   }
 }

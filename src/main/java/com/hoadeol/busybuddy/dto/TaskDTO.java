@@ -30,4 +30,5 @@ public class TaskDTO {
   private Boolean isCompleted;
   private LocalDateTime completeDate;
   private LocalDateTime registrationDate;
+  private LocalDateTime lastModifiedDate;
 }
