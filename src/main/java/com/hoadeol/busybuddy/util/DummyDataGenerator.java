@@ -126,10 +126,7 @@ public class DummyDataGenerator {
           .lastModifiedDate(lastModifiedDate);
     }
 
-    Task build = taskBuilder.build();
-    log.debug("Task: {}", build);
-
-    return build;
+    return taskBuilder.build();
   }
 
   private Priority generateRandomPriority() {
