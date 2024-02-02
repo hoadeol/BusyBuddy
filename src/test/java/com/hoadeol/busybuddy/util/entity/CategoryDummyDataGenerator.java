@@ -39,5 +39,7 @@ public class CategoryDummyDataGenerator extends TestDummyDataGenerator {
     return createCategory(null, null);
   }
 
-
+  public Category createCategoryWithMember(Member member) {
+    return createCategory(null, member);
+  }
 }

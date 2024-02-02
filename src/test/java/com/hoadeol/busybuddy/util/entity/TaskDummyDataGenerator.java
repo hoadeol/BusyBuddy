@@ -56,7 +56,7 @@ public class TaskDummyDataGenerator extends TestDummyDataGenerator {
 
     //nullable values
     category = Optional.ofNullable(category)
-        .orElse(RANDOM.nextBoolean() ? categoryDataGenerator.createCategory() : null);
+        .orElse(RANDOM.nextBoolean() ? categoryDataGenerator.createCategoryWithMember(member) : null);
     String content = RANDOM.nextBoolean() ? generateRandomString(STRING_LENGTH * 5) : null;
     Priority priority = RANDOM.nextBoolean() ? generateRandomPriority() : null;
     LocalDate startDate = RANDOM.nextBoolean() ? LocalDate.from(generateRandomFuture(DAYS)) : null;
