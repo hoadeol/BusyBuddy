@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,6 +30,7 @@ public class Category {
   private Member member;
   @Column(name = "CATE_NAME", length = 30)
   @Size(max = 30)
+  @NotBlank
   private String name;
 
   @Builder
