@@ -23,7 +23,7 @@ public class CategoryDummyDataGenerator extends TestDummyDataGenerator {
     return categories;
   }
 
-  public  Category createCategory(long id, Member member) {
+  public Category createCategory(long id, Member member) {
     member = Optional.ofNullable(member).orElse(memberDataGenerator.createMember());
 
     return Category.builder()
@@ -33,7 +33,7 @@ public class CategoryDummyDataGenerator extends TestDummyDataGenerator {
         .build();
   }
 
-  public  Category createCategory() {
+  public Category createCategory() {
     return createCategory(getRandomId(1, NUM_CATEGORIES), null);
   }
 

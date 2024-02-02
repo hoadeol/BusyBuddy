@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MemberDummyDataGenerator extends TestDummyDataGenerator {
 
-  public  List<Member> createMembers() {
+  public List<Member> createMembers() {
     List<Member> members = new ArrayList<>();
     for (int i = 0; i < NUM_MEMBERS; i++) {
       Member member = createMember(i + 1);
@@ -18,16 +18,18 @@ public class MemberDummyDataGenerator extends TestDummyDataGenerator {
     return members;
   }
 
-  public  Member createMember(long id) {
-    boolean isNewMember = RANDOM.nextBoolean();
+  public Member createMember(long id) {
+    //nullable value
+    String email = RANDOM.nextBoolean() ? generateRandomEmail() : null;
 
     MemberBuilder memberBuilder = Member.builder()
         .id(id)
         .account(generateRandomString(STRING_LENGTH * 3))
         .name(generateRandomString(STRING_LENGTH))
-        .email(generateRandomEmail())
+        .email(email)
         .password(generateRandomPassword());
 
+    boolean isNewMember = RANDOM.nextBoolean();
     if (!isNewMember) {
       LocalDateTime registrationDate = generateRandomPast(DAYS);
       LocalDateTime lastLoginDate = generateRandomPast(DAYS / 2);
@@ -40,7 +42,7 @@ public class MemberDummyDataGenerator extends TestDummyDataGenerator {
     return memberBuilder.build();
   }
 
-  public  Member createMember(){
+  public Member createMember() {
     return createMember(getRandomId(1, NUM_MEMBERS));
   }
 
