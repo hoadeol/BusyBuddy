@@ -50,6 +50,10 @@ public class Task {
   @Size(max = 500)
   private String content;
 
+  @Future(message = "시작일은 현재 시간 이후여야 합니다.")
+  @Column(name = "START_DT")
+  private LocalDateTime startDate;
+
   @Future(message = "마감일은 현재 시간 이후여야 합니다.")
   @Column(name = "DUE_DT")
   @Builder.Default
@@ -73,13 +77,15 @@ public class Task {
 
   @Builder
   public Task(Long id, Member member, Category category, String title, String content,
-      LocalDateTime dueDate, Priority priority, CompletionDetails completionDetails,
+      LocalDateTime startDate, LocalDateTime dueDate, Priority priority,
+      CompletionDetails completionDetails,
       LocalDateTime registrationDate, LocalDateTime lastModifiedDate) {
     this.id = id;
     this.member = member;
     this.category = category;
     this.title = title;
     this.content = content;
+    this.startDate = startDate;
     this.dueDate = dueDate;
     this.priority = priority;
     this.completionDetails = completionDetails;
@@ -87,11 +93,12 @@ public class Task {
     this.lastModifiedDate = lastModifiedDate;
   }
 
-  public Task update(Category category, String title, String content, LocalDateTime dueDate,
-      Priority priority, CompletionDetails completionDetails) {
+  public Task update(Category category, String title, String content, LocalDateTime startDate,
+      LocalDateTime dueDate, Priority priority, CompletionDetails completionDetails) {
     this.category = category;
     this.title = title;
     this.content = content;
+    this.startDate = startDate;
     this.dueDate = dueDate;
     this.priority = priority;
     this.completionDetails = completionDetails;

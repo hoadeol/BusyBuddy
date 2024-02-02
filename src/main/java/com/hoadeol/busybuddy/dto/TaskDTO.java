@@ -23,6 +23,9 @@ public class TaskDTO {
 
   private String content;
 
+  @Future(message = "시작일은 현재 시간 이후여야 합니다.")
+  private LocalDateTime startDate;
+
   @Future(message = "마감일은 현재 시간 이후여야 합니다.")
   private LocalDateTime dueDate;
 

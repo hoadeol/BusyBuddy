@@ -110,7 +110,7 @@ public class TaskService {
     log.debug("Completion Details: {}", completionDetails);
 
     existingTask.update(category, updatedTaskDTO.getTitle(), updatedTaskDTO.getContent(),
-        dueDate, priority, completionDetails);
+        updatedTaskDTO.getStartDate(), dueDate, priority, completionDetails);
 
     log.info("Task updated successfully. Task ID: {}", taskId);
     return TaskMapper.INSTANCE.toDTO(existingTask);

@@ -105,15 +105,16 @@ public class DummyDataGenerator {
   private Task createTask(boolean isNewTask) {
     Member member = em.getReference(Member.class, getRandomId(1, NUM_MEMBERS));
     Category category = em.getReference(Category.class, getRandomId(1, NUM_CATEGORIES));
-    Priority priority = generateRandomPriority();
-    LocalDateTime dueDate = generateRandomFuture(DAYS);
+    LocalDateTime startDate = RANDOM.nextBoolean() ? generateRandomFuture(DAYS) : null;
+    LocalDateTime dueDate = RANDOM.nextBoolean() ? generateRandomFuture(DAYS) : null;
 
     TaskBuilder taskBuilder = Task.builder()
         .member(member)
         .category(category)
-        .priority(priority)
+        .priority(generateRandomPriority())
         .title(generateRandomString(STRING_LENGTH))
         .content(generateRandomString(STRING_LENGTH * 5))  // Increased length for content
+        .startDate(startDate)
         .dueDate(dueDate);
 
     if (!isNewTask) {
