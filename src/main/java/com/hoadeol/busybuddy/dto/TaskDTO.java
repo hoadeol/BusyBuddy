@@ -1,8 +1,9 @@
 package com.hoadeol.busybuddy.dto;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
@@ -23,11 +24,11 @@ public class TaskDTO {
 
   private String content;
 
-  @Future(message = "시작일은 현재 시간 이후여야 합니다.")
-  private LocalDateTime startDate;
+  @FutureOrPresent(message = "시작일은 과거로 설정할 수 없습니다.")
+  private LocalDate startDate;
 
-  @Future(message = "마감일은 현재 시간 이후여야 합니다.")
-  private LocalDateTime dueDate;
+  @FutureOrPresent(message = "마감일은 과거로 설정할 수 없습니다.")
+  private LocalDate dueDate;
 
   private String priority;
   private Boolean isCompleted;

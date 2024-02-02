@@ -65,6 +65,12 @@ public class TaskController {
     return ResponseEntity.ok(savedTask);
   }
 
+  @PostMapping("/today")
+  public ResponseEntity<TaskDTO> saveTodayTask(@Valid @RequestBody TaskDTO taskDTO) {
+    TaskDTO savedTask = taskService.saveTodayTask(taskDTO);
+    return ResponseEntity.ok(savedTask);
+  }
+
   @PutMapping("/{taskId}")
   public ResponseEntity<TaskDTO> updateTask(@PathVariable Long taskId,
       @Valid @RequestBody TaskDTO updatedTaskDTO) {

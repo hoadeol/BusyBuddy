@@ -10,11 +10,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,14 +50,14 @@ public class Task {
   @Size(max = 500)
   private String content;
 
-  @Future(message = "시작일은 현재 시간 이후여야 합니다.")
+  @FutureOrPresent(message = "시작일은 과거로 설정할 수 없습니다.")
   @Column(name = "START_DT")
-  private LocalDateTime startDate;
+  private LocalDate startDate;
 
-  @Future(message = "마감일은 현재 시간 이후여야 합니다.")
+  @FutureOrPresent(message = "마감일은 과거로 설정할 수 없습니다.")
   @Column(name = "DUE_DT")
   @Builder.Default
-  private LocalDateTime dueDate = LocalDateTime.now().with(LocalTime.MAX);
+  private LocalDate dueDate = LocalDate.now();
 
   @Enumerated(EnumType.STRING)
   @Column(length = 10)
@@ -77,7 +77,7 @@ public class Task {
 
   @Builder
   public Task(Long id, Member member, Category category, String title, String content,
-      LocalDateTime startDate, LocalDateTime dueDate, Priority priority,
+      LocalDate startDate, LocalDate dueDate, Priority priority,
       CompletionDetails completionDetails,
       LocalDateTime registrationDate, LocalDateTime lastModifiedDate) {
     this.id = id;
@@ -93,8 +93,8 @@ public class Task {
     this.lastModifiedDate = lastModifiedDate;
   }
 
-  public Task update(Category category, String title, String content, LocalDateTime startDate,
-      LocalDateTime dueDate, Priority priority, CompletionDetails completionDetails) {
+  public void update(Category category, String title, String content, LocalDate startDate,
+      LocalDate dueDate, Priority priority, CompletionDetails completionDetails) {
     this.category = category;
     this.title = title;
     this.content = content;
@@ -103,6 +103,5 @@ public class Task {
     this.priority = priority;
     this.completionDetails = completionDetails;
     this.lastModifiedDate = LocalDateTime.now();
-    return this;
   }
 }

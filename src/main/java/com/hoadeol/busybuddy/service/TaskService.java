@@ -14,8 +14,7 @@ import com.hoadeol.busybuddy.model.Task;
 import com.hoadeol.busybuddy.repository.CategoryRepository;
 import com.hoadeol.busybuddy.repository.MemberRepository;
 import com.hoadeol.busybuddy.repository.TaskRepository;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -86,6 +85,19 @@ public class TaskService {
     return TaskMapper.INSTANCE.toDTO(savedTask);
   }
 
+  // 오늘의 Task 저장
+  @Transactional
+  public TaskDTO saveTodayTask(TaskDTO taskDTO) {
+    log.info("Saving new today task");
+    // 오늘의 Task 설정
+    taskDTO.setStartDate(LocalDate.now());
+
+    Task task = TaskMapper.INSTANCE.toEntity(taskDTO);
+    Task savedTask = taskRepository.save(task);
+    log.info("Task saved today successfully. Task ID: {}", savedTask.getId());
+    return TaskMapper.INSTANCE.toDTO(savedTask);
+  }
+
   // Task 업데이트
   @Transactional
   public TaskDTO updateTask(Long taskId, TaskDTO updatedTaskDTO) {
@@ -97,8 +109,8 @@ public class TaskService {
     Category category = getCategoryById(updatedTaskDTO.getCategoryId());
     log.debug("Category: {}", category);
 
-    LocalDateTime dueDate = Optional.ofNullable(updatedTaskDTO.getDueDate())
-        .orElse(LocalDateTime.now().with(LocalTime.MAX));
+    LocalDate dueDate = Optional.ofNullable(updatedTaskDTO.getDueDate())
+        .orElse(LocalDate.now());
     log.debug("Due Date: {}", dueDate);
 
     Priority priority = Priority.valueOf(updatedTaskDTO.getPriority());

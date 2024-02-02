@@ -8,6 +8,7 @@ import com.hoadeol.busybuddy.model.Priority;
 import com.hoadeol.busybuddy.model.Task;
 import com.hoadeol.busybuddy.model.Task.TaskBuilder;
 import jakarta.persistence.EntityManager;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
@@ -105,8 +106,8 @@ public class DummyDataGenerator {
   private Task createTask(boolean isNewTask) {
     Member member = em.getReference(Member.class, getRandomId(1, NUM_MEMBERS));
     Category category = em.getReference(Category.class, getRandomId(1, NUM_CATEGORIES));
-    LocalDateTime startDate = RANDOM.nextBoolean() ? generateRandomFuture(DAYS) : null;
-    LocalDateTime dueDate = RANDOM.nextBoolean() ? generateRandomFuture(DAYS) : null;
+    LocalDate startDate = RANDOM.nextBoolean() ? LocalDate.from(generateRandomFuture(DAYS)) : null;
+    LocalDate dueDate = RANDOM.nextBoolean() ? LocalDate.from(generateRandomFuture(DAYS)) : null;
 
     TaskBuilder taskBuilder = Task.builder()
         .member(member)
