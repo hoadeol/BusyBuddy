@@ -17,13 +17,15 @@ public class CategoryDummyDataGenerator extends TestDummyDataGenerator {
 
     for (int i = 0; i < NUM_CATEGORIES; i++) {
       Member member = members.get(getRandomIndex(0, NUM_MEMBERS));
-      Category category = createCategory(i + 1, member);
+      Category category = createCategory((long) (i + 1), member);
       categories.add(category);
     }
     return categories;
   }
 
-  public Category createCategory(long id, Member member) {
+  public Category createCategory(Long id, Member member) {
+    //not null values
+    id = Optional.ofNullable(id).orElse(getRandomId(1, NUM_CATEGORIES));
     member = Optional.ofNullable(member).orElse(memberDataGenerator.createMember());
 
     return Category.builder()
@@ -34,7 +36,7 @@ public class CategoryDummyDataGenerator extends TestDummyDataGenerator {
   }
 
   public Category createCategory() {
-    return createCategory(getRandomId(1, NUM_CATEGORIES), null);
+    return createCategory(null, null);
   }
 
 

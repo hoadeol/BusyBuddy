@@ -12,13 +12,13 @@ public class MemberDummyDataGenerator extends TestDummyDataGenerator {
   public List<Member> createMembers() {
     List<Member> members = new ArrayList<>();
     for (int i = 0; i < NUM_MEMBERS; i++) {
-      Member member = createMember(i + 1);
+      Member member = createMember((long) (i + 1));
       members.add(member);
     }
     return members;
   }
 
-  public Member createMember(long id) {
+  public Member createMember(Long id) {
     //nullable value
     String email = RANDOM.nextBoolean() ? generateRandomEmail() : null;
 

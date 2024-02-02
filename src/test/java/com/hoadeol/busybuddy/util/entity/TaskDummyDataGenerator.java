@@ -26,7 +26,7 @@ public class TaskDummyDataGenerator extends TestDummyDataGenerator {
       Member member = members.get(getRandomIndex(0, NUM_MEMBERS));
       Category category = categories.get(getRandomIndex(0, NUM_CATEGORIES));
 
-      Task task = createTask(i + 1, member, category);
+      Task task = createTask((long) (i + 1), member, category);
       tasks.add(task);
     }
     return tasks;
@@ -35,7 +35,7 @@ public class TaskDummyDataGenerator extends TestDummyDataGenerator {
   public List<Task> createTasksWithMemberAndCategory(Member member, Category category) {
     List<Task> tasks = new ArrayList<>();
     for (int i = 0; i < NUM_TASKS; i++) {
-      Task task = createTask(i + 1, member, category);
+      Task task = createTask((long) (i + 1), member, category);
       tasks.add(task);
     }
     return tasks;
@@ -49,8 +49,9 @@ public class TaskDummyDataGenerator extends TestDummyDataGenerator {
     return createTasksWithMemberAndCategory(null, category);
   }
 
-  public Task createTask(long id, Member member, Category category) {
+  public Task createTask(Long id, Member member, Category category) {
     //not null value
+    id = Optional.ofNullable(id).orElse(RANDOM.nextLong());
     member = Optional.ofNullable(member).orElse(memberDataGenerator.createMember());
 
     //nullable values
@@ -84,7 +85,7 @@ public class TaskDummyDataGenerator extends TestDummyDataGenerator {
   }
 
   public Task createTask() {
-    return createTask(RANDOM.nextLong(), null, null);
+    return createTask(null, null, null);
   }
 
 }
