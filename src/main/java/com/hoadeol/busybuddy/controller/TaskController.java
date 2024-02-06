@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -60,14 +61,11 @@ public class TaskController {
   }
 
   @PostMapping
-  public ResponseEntity<TaskDTO> saveTask(@Valid @RequestBody TaskDTO taskDTO) {
-    TaskDTO savedTask = taskService.saveTask(taskDTO);
-    return ResponseEntity.ok(savedTask);
-  }
-
-  @PostMapping("/today")
-  public ResponseEntity<TaskDTO> saveTodayTask(@Valid @RequestBody TaskDTO taskDTO) {
-    TaskDTO savedTask = taskService.saveTodayTask(taskDTO);
+  public ResponseEntity<TaskDTO> saveTask(
+      @Valid @RequestBody TaskDTO taskDTO,
+      @RequestParam(required = false, defaultValue = "false") Boolean isToday
+  ) {
+    TaskDTO savedTask = taskService.saveTask(taskDTO, isToday);
     return ResponseEntity.ok(savedTask);
   }
 

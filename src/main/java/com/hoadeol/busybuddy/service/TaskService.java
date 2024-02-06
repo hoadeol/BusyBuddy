@@ -1,8 +1,10 @@
 package com.hoadeol.busybuddy.service;
 
 import static com.hoadeol.busybuddy.constants.ErrorCode.CATEGORY_NOT_FOUND;
+import static com.hoadeol.busybuddy.constants.ErrorCode.CATEGORY_UNAUTHORIZED;
 import static com.hoadeol.busybuddy.constants.ErrorCode.MEMBER_NOT_FOUND;
 import static com.hoadeol.busybuddy.constants.ErrorCode.TASK_NOT_FOUND;
+import static com.hoadeol.busybuddy.constants.ErrorCode.TASK_UNAUTHORIZED;
 
 import com.hoadeol.busybuddy.dto.TaskDTO;
 import com.hoadeol.busybuddy.exception.CustomException;
@@ -56,6 +58,7 @@ public class TaskService {
       log.warn("Attempted to get non-existent task with memberID: {}", memberId);
       throw new CustomException(memberId, MEMBER_NOT_FOUND);
     }
+    //TODO 본인 task 인지 확인
 
     List<Task> tasks = taskRepository.findByMemberId(memberId);
     log.info("Fetched {} tasks by Member ID: {}", tasks.size(), memberId);
@@ -69,6 +72,7 @@ public class TaskService {
       log.warn("Attempted to get non-existent task with categoryId: {}", categoryId);
       throw new CustomException(categoryId, CATEGORY_NOT_FOUND);
     }
+    //TODO 본인 category 인지 확인
 
     List<Task> tasks = taskRepository.findByCategoryId(categoryId);
     log.info("Fetched {} tasks by Category ID: {}", tasks.size(), categoryId);
@@ -77,54 +81,58 @@ public class TaskService {
 
   // Task 저장
   @Transactional
-  public TaskDTO saveTask(TaskDTO taskDTO) {
-    log.info("Saving new task");
+  public TaskDTO saveTask(TaskDTO taskDTO, Boolean isTodayTask) {
+    log.info("Saving new task: {}, isTodayTask: {}", taskDTO, isTodayTask);
+
+    // 유효성 검사
+    Optional.ofNullable(taskDTO.getCategoryId())
+        .ifPresent(categoryId -> validateCategoryAuthorId(categoryId, taskDTO));
+    log.info("Validate saved task successfully");
+
+    // 오늘의 Task 설정
+    taskDTO.setTodayTask(isTodayTask);
+
     Task task = TaskMapper.INSTANCE.toEntity(taskDTO);
     Task savedTask = taskRepository.save(task);
-    log.info("Task saved successfully. Task ID: {}", savedTask.getId());
+    log.info("Task saved successfully.");
+
     return TaskMapper.INSTANCE.toDTO(savedTask);
   }
 
-  // 오늘의 Task 저장
-  @Transactional
-  public TaskDTO saveTodayTask(TaskDTO taskDTO) {
-    log.info("Saving new today task");
-    // 오늘의 Task 설정
-    taskDTO.setStartDate(LocalDate.now());
-
-    Task task = TaskMapper.INSTANCE.toEntity(taskDTO);
-    Task savedTask = taskRepository.save(task);
-    log.info("Task saved today successfully. Task ID: {}", savedTask.getId());
-    return TaskMapper.INSTANCE.toDTO(savedTask);
+  // Task 저장
+  public TaskDTO saveTask(TaskDTO taskDTO) {
+    return saveTask(taskDTO, false);
   }
 
   // Task 업데이트
   @Transactional
   public TaskDTO updateTask(Long taskId, TaskDTO updatedTaskDTO) {
-    log.info("Updating task with ID: {}", taskId);
-
+    log.info("Updating task with ID: {}, DTO: {}", taskId, updatedTaskDTO);
     Task existingTask = taskRepository.findById(taskId)
         .orElseThrow(() -> new CustomException(taskId, TASK_NOT_FOUND));
 
-    Category category = getCategoryById(updatedTaskDTO.getCategoryId());
-    log.debug("Category: {}", category);
+    // 유효성 검사
+    validateTaskAuthorId(existingTask, updatedTaskDTO);
+    Optional.ofNullable(updatedTaskDTO.getCategoryId())
+        .ifPresent(categoryId -> validateCategoryAuthorId(categoryId, updatedTaskDTO));
+    log.info("Validate updated task successfully");
 
+    // 수정
+    Category category = getCategoryById(updatedTaskDTO.getCategoryId());
     LocalDate dueDate = Optional.ofNullable(updatedTaskDTO.getDueDate())
         .orElse(LocalDate.now());
-    log.debug("Due Date: {}", dueDate);
-
     Priority priority = Priority.valueOf(updatedTaskDTO.getPriority());
-
     CompletionDetails completionDetails = CompletionDetails.builder()
         .isCompleted(updatedTaskDTO.getIsCompleted())
         .completeDate(updatedTaskDTO.getCompleteDate())
         .build();
-    log.debug("Completion Details: {}", completionDetails);
+    log.info("Get updated task values successfully");
+    log.debug("DTO: {}, category: {}, dueDate: {}, priority: {}, completionDetails: {}",
+        updatedTaskDTO, category, dueDate, priority, completionDetails);
 
     existingTask.update(category, updatedTaskDTO.getTitle(), updatedTaskDTO.getContent(),
         updatedTaskDTO.getStartDate(), dueDate, priority, completionDetails);
-
-    log.info("Task updated successfully. Task ID: {}", taskId);
+    log.info("Task updated successfully.");
     return TaskMapper.INSTANCE.toDTO(existingTask);
   }
 
@@ -135,6 +143,7 @@ public class TaskService {
       log.warn("Attempted to delete non-existent task with ID: {}", taskId);
       throw new CustomException(taskId, TASK_NOT_FOUND);
     }
+    //TODO 본인 task 인지 확인
 
     taskRepository.deleteById(taskId);
     log.info("Task deleted successfully. Task ID: {}", taskId);
@@ -144,5 +153,23 @@ public class TaskService {
     return categoryId != null ? categoryRepository.findById(categoryId)
         .orElseThrow(() -> new CustomException(categoryId, CATEGORY_NOT_FOUND))
         : null;
+  }
+
+  private void validateCategoryAuthorId(Long categoryId, TaskDTO taskDTO) {
+    Category category = categoryRepository.findById(categoryId)
+        .orElseThrow(() -> new CustomException(categoryId, CATEGORY_NOT_FOUND));
+
+    Long categoryAuthorId = category.getMember().getId();
+    if (categoryAuthorId.equals(taskDTO.getMemberId())) {
+      throw new CustomException(String.valueOf(taskDTO), CATEGORY_UNAUTHORIZED);
+    }
+  }
+
+  private void validateTaskAuthorId(Task existingTask, TaskDTO taskDTO) {
+    Long taskAuthorId = existingTask.getMember().getId();
+    Long requestMemberId = taskDTO.getMemberId();
+    if (!taskAuthorId.equals(requestMemberId)) {
+      throw new CustomException(String.valueOf(taskDTO), TASK_UNAUTHORIZED);
+    }
   }
 }

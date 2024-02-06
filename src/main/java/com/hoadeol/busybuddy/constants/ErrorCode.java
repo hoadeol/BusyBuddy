@@ -2,6 +2,7 @@ package com.hoadeol.busybuddy.constants;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +14,12 @@ public enum ErrorCode {
 
   //400 BAD_REQUEST 잘못된 요청
   INVALID_PARAMETER(BAD_REQUEST, "파라미터 값을 확인해주세요.", "Invalid parameter: "),
+
+  //401 UNAUTHORIZED 권한 없음
+  CATEGORY_UNAUTHORIZED(UNAUTHORIZED, "권한이 없는 카테고리입니다.",
+      "Permission denied for category modification with request: "),
+  TASK_UNAUTHORIZED(UNAUTHORIZED, "권한이 없는 할 일입니다.",
+      "Permission denied for task modification with request: "),
 
   //404 NOT_FOUND 잘못된 리소스 접근
   CATEGORY_NOT_FOUND(NOT_FOUND, "존재하지 않는 카테고리 ID 입니다.", "Category not found with ID: "),

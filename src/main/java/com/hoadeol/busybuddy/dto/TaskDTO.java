@@ -35,4 +35,10 @@ public class TaskDTO {
   private LocalDateTime completeDate;
   private LocalDateTime registrationDate;
   private LocalDateTime lastModifiedDate;
+
+  public void setTodayTask(Boolean isTodayTask) {
+    if (Boolean.TRUE.equals(isTodayTask)) {
+      this.setStartDate(LocalDate.now());
+    }
+  }
 }
