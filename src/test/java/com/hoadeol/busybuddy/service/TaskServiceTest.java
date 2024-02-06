@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -13,12 +14,15 @@ import static org.mockito.Mockito.when;
 import com.hoadeol.busybuddy.constants.ErrorCode;
 import com.hoadeol.busybuddy.dto.TaskDTO;
 import com.hoadeol.busybuddy.exception.CustomException;
+import com.hoadeol.busybuddy.mapper.TaskMapper;
 import com.hoadeol.busybuddy.model.Category;
 import com.hoadeol.busybuddy.model.Member;
+import com.hoadeol.busybuddy.model.Priority;
 import com.hoadeol.busybuddy.model.Task;
 import com.hoadeol.busybuddy.repository.CategoryRepository;
 import com.hoadeol.busybuddy.repository.MemberRepository;
 import com.hoadeol.busybuddy.repository.TaskRepository;
+import com.hoadeol.busybuddy.util.dto.TaskDTODummyDataGenerator;
 import com.hoadeol.busybuddy.util.entity.CategoryDummyDataGenerator;
 import com.hoadeol.busybuddy.util.entity.MemberDummyDataGenerator;
 import com.hoadeol.busybuddy.util.entity.TaskDummyDataGenerator;
@@ -41,13 +45,13 @@ class TaskServiceTest {
 
   @Mock
   private CategoryRepository categoryRepository;
-
   @InjectMocks
   private TaskService taskService;
 
   private final CategoryDummyDataGenerator categoryDataGenerator = new CategoryDummyDataGenerator();
   private final MemberDummyDataGenerator memberDataGenerator = new MemberDummyDataGenerator();
   private final TaskDummyDataGenerator taskDataGenerator = new TaskDummyDataGenerator();
+  private final TaskDTODummyDataGenerator taskDTODataGenerator = new TaskDTODummyDataGenerator();
 
   @Test
   void getAllTasks() {
@@ -176,6 +180,40 @@ class TaskServiceTest {
     verify(categoryRepository, times(1)).existsById(categoryId);
     verify(taskRepository, never()).findByCategoryId(anyLong());
   }
+
+  @Test
+  void saveTask() {
+    // Given
+    TaskDTO taskDTO = taskDTODataGenerator.createSavedTaskDTO();
+    Task expectedTask = TaskMapper.INSTANCE.toEntity(taskDTO);
+
+    // When
+    when(taskRepository.save(any(Task.class))).thenReturn(expectedTask);
+    TaskDTO result = taskService.saveTask(taskDTO);
+
+    // Then
+    assertNotNull(result);
+    verify(taskRepository, times(1)).save(any(Task.class));
+
+    // same values
+    assertEquals(taskDTO.getMemberId(), result.getMemberId());
+    assertEquals(taskDTO.getCategoryId(), result.getCategoryId());
+    assertEquals(taskDTO.getTitle(), result.getTitle());
+    assertEquals(taskDTO.getContent(), result.getContent());
+    assertEquals(taskDTO.getStartDate(), result.getStartDate());
+    assertEquals(taskDTO.getDueDate(), result.getDueDate());
+
+    // Handle priority
+    String expectedPriority =
+        taskDTO.getPriority() == null ? String.valueOf(Priority.NORMAL) : taskDTO.getPriority();
+    assertEquals(expectedPriority, result.getPriority());
+
+    // Handle isCompleted and completeDate
+    assertEquals(taskDTO.getIsCompleted(), result.getIsCompleted());
+    assertEquals(Optional.ofNullable(taskDTO.getIsCompleted()).orElse(false) ?
+        taskDTO.getCompleteDate() : null, result.getCompleteDate());
+  }
+
 
 }
 
