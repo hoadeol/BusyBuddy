@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @Builder
 @Valid
-public class TaskDTO {
+public class TaskDTO implements Cloneable {
 
   private Long id;
 
@@ -40,5 +40,10 @@ public class TaskDTO {
     if (Boolean.TRUE.equals(isTodayTask)) {
       this.setStartDate(LocalDate.now());
     }
+  }
+
+  @Override
+  public TaskDTO clone() throws CloneNotSupportedException {
+    return (TaskDTO) super.clone();
   }
 }

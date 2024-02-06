@@ -26,6 +26,7 @@ import com.hoadeol.busybuddy.util.dto.TaskDTODummyDataGenerator;
 import com.hoadeol.busybuddy.util.entity.CategoryDummyDataGenerator;
 import com.hoadeol.busybuddy.util.entity.MemberDummyDataGenerator;
 import com.hoadeol.busybuddy.util.entity.TaskDummyDataGenerator;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -191,6 +192,27 @@ class TaskServiceTest {
     when(taskRepository.save(any(Task.class))).thenReturn(expectedTask);
     TaskDTO result = taskService.saveTask(taskDTO);
 
+    //then
+    thenSavedTask(taskDTO, result);
+    assertEquals(taskDTO.getStartDate(), result.getStartDate());
+  }
+
+  @Test
+  void saveTask_Today() throws Exception {
+    // Given
+    TaskDTO taskDTO = taskDTODataGenerator.createSavedTaskDTO();
+    Task expectedTask = getExpectedTodayTask(taskDTO);
+
+    // When
+    when(taskRepository.save(any(Task.class))).thenReturn(expectedTask);
+    TaskDTO result = taskService.saveTask(taskDTO, true);
+
+    // Then
+    thenSavedTask(taskDTO, result);
+    assertEquals(LocalDate.now(), result.getStartDate());
+  }
+
+  private void thenSavedTask(TaskDTO taskDTO, TaskDTO result) {
     // Then
     assertNotNull(result);
     verify(taskRepository, times(1)).save(any(Task.class));
@@ -200,7 +222,6 @@ class TaskServiceTest {
     assertEquals(taskDTO.getCategoryId(), result.getCategoryId());
     assertEquals(taskDTO.getTitle(), result.getTitle());
     assertEquals(taskDTO.getContent(), result.getContent());
-    assertEquals(taskDTO.getStartDate(), result.getStartDate());
     assertEquals(taskDTO.getDueDate(), result.getDueDate());
 
     // Handle priority
@@ -214,6 +235,11 @@ class TaskServiceTest {
         taskDTO.getCompleteDate() : null, result.getCompleteDate());
   }
 
+  private Task getExpectedTodayTask(TaskDTO taskDTO) throws Exception {
+    TaskDTO cloneDTO = taskDTO.clone();
+    cloneDTO.setStartDate(LocalDate.now());
+    return TaskMapper.INSTANCE.toEntity(cloneDTO);
+  }
 
 }
 

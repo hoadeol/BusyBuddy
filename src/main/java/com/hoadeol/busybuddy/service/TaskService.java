@@ -1,10 +1,8 @@
 package com.hoadeol.busybuddy.service;
 
 import static com.hoadeol.busybuddy.constants.ErrorCode.CATEGORY_NOT_FOUND;
-import static com.hoadeol.busybuddy.constants.ErrorCode.CATEGORY_UNAUTHORIZED;
 import static com.hoadeol.busybuddy.constants.ErrorCode.MEMBER_NOT_FOUND;
 import static com.hoadeol.busybuddy.constants.ErrorCode.TASK_NOT_FOUND;
-import static com.hoadeol.busybuddy.constants.ErrorCode.TASK_UNAUTHORIZED;
 
 import com.hoadeol.busybuddy.dto.TaskDTO;
 import com.hoadeol.busybuddy.exception.CustomException;
@@ -92,8 +90,8 @@ public class TaskService {
      */
 
     // 오늘의 Task 설정
-    taskDTO.setTodayTask(isTodayTask);
     log.info("set TodayTask successfully: {}", isTodayTask);
+    taskDTO.setTodayTask(isTodayTask);
 
     Task task = TaskMapper.INSTANCE.toEntity(taskDTO);
     Task savedTask = taskRepository.save(task);

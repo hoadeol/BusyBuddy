@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class TaskDTODummyDataGenerator extends TestDummyDataGenerator {
 
-  public TaskDTO createSavedTaskDTO(Long memberId, Long categoryId) {
+  public TaskDTO createSavedTaskDTO(Long memberId, Long categoryId, Boolean isTodayTask) {
     //pathVariable value
     Long id = getRandomId(1, NUM_TASKS);
 
@@ -19,7 +19,8 @@ public class TaskDTODummyDataGenerator extends TestDummyDataGenerator {
         .orElse(RANDOM.nextBoolean() ? getRandomId(1, NUM_CATEGORIES) : null);
     String content = RANDOM.nextBoolean() ? generateRandomString(STRING_LENGTH * 5) : null;
     String priority = RANDOM.nextBoolean() ? String.valueOf(generateRandomPriority()) : null;
-    LocalDate startDate = RANDOM.nextBoolean() ? LocalDate.from(generateRandomFuture(DAYS)) : null;
+    LocalDate startDate = Boolean.TRUE.equals(isTodayTask) || RANDOM.nextBoolean() ?
+        LocalDate.from(generateRandomFuture(DAYS)) : null;
     LocalDate dueDate = RANDOM.nextBoolean() ? LocalDate.from(generateRandomFuture(DAYS)) : null;
 
     return TaskDTO.builder()
@@ -35,7 +36,7 @@ public class TaskDTODummyDataGenerator extends TestDummyDataGenerator {
   }
 
   public TaskDTO createSavedTaskDTO() {
-    return createSavedTaskDTO(null, null);
+    return createSavedTaskDTO(null, null, null);
   }
 
 }
