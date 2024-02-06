@@ -84,13 +84,16 @@ public class TaskService {
   public TaskDTO saveTask(TaskDTO taskDTO, Boolean isTodayTask) {
     log.info("Saving new task: {}, isTodayTask: {}", taskDTO, isTodayTask);
 
+    /*
     // 유효성 검사
     Optional.ofNullable(taskDTO.getCategoryId())
         .ifPresent(categoryId -> validateCategoryAuthorId(categoryId, taskDTO));
     log.info("Validate saved task successfully");
+     */
 
     // 오늘의 Task 설정
     taskDTO.setTodayTask(isTodayTask);
+    log.info("set TodayTask successfully: {}", isTodayTask);
 
     Task task = TaskMapper.INSTANCE.toEntity(taskDTO);
     Task savedTask = taskRepository.save(task);
@@ -112,10 +115,12 @@ public class TaskService {
         .orElseThrow(() -> new CustomException(taskId, TASK_NOT_FOUND));
 
     // 유효성 검사
-    validateTaskAuthorId(existingTask, updatedTaskDTO);
+    //TODO 본인 task 인지 확인
+/*
     Optional.ofNullable(updatedTaskDTO.getCategoryId())
         .ifPresent(categoryId -> validateCategoryAuthorId(categoryId, updatedTaskDTO));
     log.info("Validate updated task successfully");
+*/
 
     // 수정
     Category category = getCategoryById(updatedTaskDTO.getCategoryId());
@@ -155,6 +160,8 @@ public class TaskService {
         : null;
   }
 
+/*
+  //TODO 로그인 세션으로 확인
   private void validateCategoryAuthorId(Long categoryId, TaskDTO taskDTO) {
     Category category = categoryRepository.findById(categoryId)
         .orElseThrow(() -> new CustomException(categoryId, CATEGORY_NOT_FOUND));
@@ -169,7 +176,9 @@ public class TaskService {
     Long taskAuthorId = existingTask.getMember().getId();
     Long requestMemberId = taskDTO.getMemberId();
     if (!taskAuthorId.equals(requestMemberId)) {
+      log.warn("Attempted to access unauthorized task with taskAuthorId: {}, requestMemberId: {}", taskAuthorId, requestMemberId);
       throw new CustomException(String.valueOf(taskDTO), TASK_UNAUTHORIZED);
     }
   }
+  */
 }
