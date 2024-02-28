@@ -1,0 +1,64 @@
+<th:block th:fragment="dueDateModal">
+  <div class="modal fade" id="dueDateModal" tabindex="-1" role="dialog"
+       aria-labelledby="dueDateModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="dueDateModalLabel">마감일 설정</h4>
+        </div>
+        <div class="modal-body">
+          <label> 마감일 선택</label>
+          <div class="input-group date">
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+            <input type="text" class="form-control" id="dueDatePicker" value="">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-primary" onclick="saveDueDate()">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // due_date_modal 호출
+    function openDueDateModal() {
+      $('#dueDateModal').modal('show');
+
+      let taskDate = $('#taskDate').val();
+
+      // Datepicker 초기화
+      $('#dueDatePicker').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'kr',
+        autoclose: true,
+        startDate: taskDate
+      });
+
+      $('#dueDatePicker').datepicker('setDate', taskDate);
+    }
+
+    // 마감일을 저장하고 모달을 닫기 위한 함수
+    function saveDueDate() {
+      var selectedDueDate = $('#dueDatePicker').datepicker('getDate');
+
+      $('#dueDateModal').modal('hide');
+      if (selectedDueDate) {
+        // 날짜를 yyyy-mm-dd 형식으로 변환
+        var year = selectedDueDate.getFullYear();
+        var month = ('0' + (selectedDueDate.getMonth() + 1)).slice(-2); // 두 자리 숫자로 변환
+        var day = ('0' + selectedDueDate.getDate()).slice(-2); // 두 자리 숫자로 변환
+        var formattedDueDate = year + '-' + month + '-' + day;
+
+        // $('#dueDatePickerInput')로 변경하고, 변환된 날짜로 설정
+        $('#dueDatePickerInput').val(formattedDueDate);
+      }
+    }
+  </script>
+</th:block>

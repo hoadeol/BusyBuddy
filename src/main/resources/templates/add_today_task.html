@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>오늘의 할 일 추가</title>
+  <th:block th:insert="~{layout :: head}"></th:block>
+</head>
+
+<body>
+<!-- 공통 js -->
+<th:block th:insert="~{layout :: js}"></th:block>
+<!-- datePicker -->
+<th:block th:insert="~{layout :: datePicker}"></th:block>
+
+<section id="container">
+  <!-- 상단바 -->
+  <th:block th:insert="~{layout :: navbar}"></th:block>
+  <!-- 사이드바 -->
+  <th:block th:insert="~{layout :: sidebar}"></th:block>
+
+  <!-- **********************************************************************************************************************************************************
+  MAIN CONTENT
+  *********************************************************************************************************************************************************** -->
+  <section id="main-content">
+    <section class="wrapper">
+      <h3><i class="fa fa-angle-right"></i> 오늘의 할 일 추가</h3>
+
+      <!-- BASIC FORM ELELEMNTS -->
+      <div class="row mt">
+        <div class="col-lg-12">
+          <div class="form-panel">
+            <h4 class="mb"><i class="fa fa-angle-right"></i> 오늘의 할 일에 대해 작성해주세요</h4>
+            <form class="form-horizontal style-form" method="get">
+              <input type="hidden" class="form-control" id="taskDate" value="">
+              <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">할 일 제목</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" placeholder="필수입력사항입니다">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">할 일 내용</label>
+                <div class="col-sm-10">
+                  <textarea type="text" class="form-control"></textarea>
+                </div>
+              </div>
+            </form>
+            <div class="showback">
+              <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info" onclick="openPriorityModal();">우선순위
+                    설정
+                  </button>
+                  <input type="text" class="form-control" id="priorityPickerInput"
+                         style="display: block;" placeholder="설정하세요">
+                </div>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info" onclick="openCategoryModal();">카테고리
+                    설정
+                  </button>
+                  <input type="text" class="form-control" id="categoryPickerInput"
+                         style="display: block;" placeholder="설정하세요">
+                </div>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info" onclick="openDueDateModal();">마감일 설정
+                  </button>
+                  <input type="text" class="form-control" id="dueDatePickerInput"
+                         style="display: block;" placeholder="설정하세요">
+                </div>
+              </div>
+              <br/>
+              <div style="float: right;">
+                <button type="button" class="btn btn-primary">등록하기</button>
+              </div>
+              <br/><br/>
+            </div><!--/showback -->
+          </div>
+        </div><!-- col-lg-12-->
+      </div><!-- /row -->
+    </section>
+  </section>
+  <!--main content end-->
+  <!-- 푸터 -->
+  <th:block th:insert="~{layout :: footer}"></th:block>
+</section>
+
+<div id="priorityModalContainer" th:replace="/priority_modal :: priorityModal"></div>
+<div id="categoryModalContainer" th:replace="/category_modal :: categoryModal"></div>
+<div id="dueDateModalContainer" th:replace="/due_date_modal :: dueDateModal"></div>
+
+<script>
+  $(document).ready(function () {
+    TaskList.initTaskWidget();
+
+    <!--DatePicker 설정-->
+    $('#taskDate').datepicker({
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      language: 'kr',
+      autoclose: true,
+      showOnFocus: true
+    });
+    // 오늘 날짜를 설정
+    $('#taskDate').datepicker('setDate', new Date());
+  });
+</script>
+
+</body>
+</html>

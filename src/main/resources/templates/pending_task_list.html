@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>미뤄둔 할 일 리스트</title>
+  <th:block th:insert="~{layout :: head}"></th:block>
+</head>
+
+<body>
+<!-- 공통 js -->
+<th:block th:insert="~{layout :: js}"></th:block>
+<!-- datePicker -->
+<th:block th:insert="~{layout :: datePicker}"></th:block>
+
+<section id="container">
+  <!-- 상단바 -->
+  <th:block th:insert="~{layout :: navbar}"></th:block>
+  <!-- 사이드바 -->
+  <th:block th:insert="~{layout :: sidebar}"></th:block>
+
+  <!-- **********************************************************************************************************************************************************
+  MAIN CONTENT
+  *********************************************************************************************************************************************************** -->
+  <!--main content start-->
+  <section id="main-content">
+    <section class="wrapper">
+      <h3><i class="fa fa-angle-right"></i> 미뤄둔 할 일</h3>
+      <div class="row mt">
+        <div class="col-md-12">
+          <section class="task-panel tasks-widget">
+            <div class="panel-heading">
+              <div style="float: right">
+                <select class="form-select" aria-label="Default select example">
+                  <option value="regdt">등록일시</option>
+                  <option value="duedt">마감일시</option>
+                  <option value="prior">우선순위</option>
+                </select>
+                <select class="form-select" aria-label="Default select example">
+                  <option selected value="asc">오름차순</option>
+                  <option value="desc">내림차순</option>
+                </select>
+              </div>
+              <br>
+            </div>
+            <div class="panel-body">
+              <div class="task-content">
+                <!--여기서부터 한 뭉탱이-->
+                <div><h5><i class="fa fa-tasks"></i> 2024년 01월 30일 </h5></div>
+                <ul class="task-list">
+                  <li>
+                    <div class="task-checkbox">
+                      <input type="checkbox" class="list-child" value=""/>
+                    </div>
+                    <div class="task-title">
+                      <span class="task-title-sp"><a href="index.html#">Send invoice</a></span>
+                      <span class="badge bg-theme">Done</span>
+                      <div class="pull-right hidden-phone">
+                        <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="task-checkbox">
+                      <input type="checkbox" class="list-child" value=""/>
+                    </div>
+                    <div class="task-title">
+                      <span class="task-title-sp"><a href="index.html#">Check messages</a></span>
+                      <span class="badge bg-warning">Cool</span>
+                      <div class="pull-right hidden-phone">
+                        <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <br>
+                <div><h5><i class="fa fa-tasks"></i> 2024년 01월 29일 </h5></div>
+                <ul class="task-list">
+                  <li>
+                    <div class="task-checkbox">
+                      <input type="checkbox" class="list-child" value=""/>
+                    </div>
+                    <div class="task-title">
+                      <span class="task-title-sp"><a href="index.html#">Schedule site </a></span>
+                      <span class="badge bg-info">Tomorrow</span>
+                      <div class="pull-right hidden-phone">
+                        <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="task-checkbox">
+                      <input type="checkbox" class="list-child" value=""/>
+                    </div>
+                    <div class="task-title">
+                      <span class="task-title-sp"><a href="index.html#">Write a diary </a></span>
+                      <span class="badge bg-important">Now</span>
+                      <div class="pull-right">
+                        <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <br>
+                <div><h5><i class="fa fa-tasks"></i> 2024년 01월 25일 </h5></div>
+                <ul class="task-list">
+                  <li>
+                    <div class="task-checkbox">
+                      <input type="checkbox" class="list-child" value=""/>
+                    </div>
+                    <div class="task-title">
+                      <span class="task-title-sp"><a href="index.html#">Pay bills</a></span>
+                      <span class="badge bg-success">2 Days</span>
+                      <div class="pull-right hidden-phone">
+                        <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+          </section>
+        </div><!-- /col-md-12-->
+      </div><!-- /row -->
+    </section>
+  </section>
+  <!--main content end-->
+  <!-- 푸터 -->
+  <th:block th:insert="~{layout :: footer}"></th:block>
+</section>
+
+<script>
+  jQuery(document).ready(function () {
+    TaskList.initTaskWidget();
+  });
+</script>
+
+</body>
+</html>
