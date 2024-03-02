@@ -44,8 +44,36 @@
             </span>
         </label>
         -->
-				<button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> 로그인</button>
+
+				<!-- 기본 로그인 창-->
+				<!-- <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> 로그인</button>
+				<hr> -->
+
+				<button class="btn btn-theme btn-block" type="button" data-toggle="modal" data-target="#loginModal">
+					<i class="fa fa-lock"></i> 로그인
+				</button>
 				<hr>
+
+				<!-- 로그인 실패 시의 모달 -->
+				<!-- modal-dialog special-modal-dialog 으로 해당 모달만 CSS 처리함-->
+				<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog special-modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myModalLabel">BUSYBUDDY에 로그인하지 못했습니다.</h4>
+							</div>
+							<div class="modal-body">
+								<!-- 모달 내용 -->
+								아이디/패스워드를 한번 더 확인해 주세요.
+							</div>
+							<div class="modal-footer">
+								<!--<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>-->
+								<button type="button" class="btn btn-theme" data-dismiss="modal">닫기</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
 				<!-- 소셜 로그인 -->
 				<!--
@@ -58,7 +86,7 @@
 
 				<div class="registration">
 					아직 아이디가 없으신가요?<br/>
-					<a class="" href="#">
+					<a class="" href="signup.html">
 						BUSYBUDDY에 회원가입하기
 					</a>
 				</div>
