@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>검색</title>
+  <th:block th:insert="~{layout :: head}"></th:block>
+</head>
+
+<body>
+<!-- 공통 js -->
+<th:block th:insert="~{layout :: js}"></th:block>
+<!-- datePicker -->
+<th:block th:insert="~{layout :: datePicker}"></th:block>
+
+<section id="container">
+  <!-- 상단바 -->
+  <th:block th:insert="~{layout :: navbar}"></th:block>
+  <!-- 사이드바 -->
+  <th:block th:insert="~{layout :: sidebar}"></th:block>
+
+  <!-- **********************************************************************************************************************************************************
+  MAIN CONTENT
+  *********************************************************************************************************************************************************** -->
+  <!--main content start-->
+  <section id="main-content">
+    <section class="wrapper site-min-height">
+      <!--검색창-->
+      <div class="row mt">
+        <div class="col-lg-12">
+          <div class="form-panel">
+            <h4 class="mb"><i class="fa fa-angle-right"></i> 검색하세요 </h4>
+            <form class="form-horizontal style-form" method="get">
+              <div class="form-group">
+                <div class="col-sm-10">
+                  <input type="text" class="form-control round-form">
+                </div>
+                <button type="button" class="btn btn-round btn-info"> 검색</button>
+              </div>
+            </form>
+            <!--검색 결과 리스트-->
+            <div class="row mt">
+              <div class="col-md-12">
+                <div class="white-panel pn">
+                  <div class="panel-heading">
+                    <div class="pull-left"><h4 style="color: black;"> 검색 결과 </h4></div>
+                    <br>
+                  </div>
+                  <div class="custom-check goleft mt">
+                    <table id="todo" class="table table-hover custom-check">
+                      <tbody>
+                      <tr>
+                        <td>
+                          <span class="check"><input type="checkbox" class="checked"></span>
+                          <a href="index.html#">Send invoice</a></span>
+                          <button class="close" aria-hidden="true" data-dismiss="alert"
+                                  type="button">×
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="check"><input type="checkbox" class="checked"></span>
+                          <a href="index.html#">Check messages</a></span>
+                          <button class="close" aria-hidden="true" data-dismiss="alert"
+                                  type="button">×
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="check"><input type="checkbox" class="checked"></span>
+                          <a href="index.html#">Pay bills</a></span>
+                          <button class="close" aria-hidden="true" data-dismiss="alert"
+                                  type="button">×
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="check"><input type="checkbox" class="checked"></span>
+                          <a href="index.html#">Schedule site </a></span>
+                          <button class="close" aria-hidden="true" data-dismiss="alert"
+                                  type="button">×
+                          </button>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div><!-- /table-responsive -->
+                </div><!--/ White-panel -->
+              </div>
+            </div>
+          </div>
+        </div><!-- col-lg-12-->
+      </div><!-- /row -->
+    </section>
+  </section>
+  <!--main content end-->
+  <!-- 푸터 -->
+  <th:block th:insert="~{layout :: footer}"></th:block>
+</section>
+
+</body>
+</html>

@@ -34,17 +34,6 @@ body {
     font-size:13px;
 }
 
-/*&*/
-/*body {
-    color: #797979;
-    background: #f2f2f2;
-    !*font-family: 'Ruda', sans-serif;*!
-    font-family: 'Poor Story', sans-serif;
-    padding: 0px !important;
-    margin: 0px !important;
-    font-size:13px;
-}*/
-
 ul li {
     list-style: none;
 }
@@ -910,7 +899,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 	margin-left: 15px;	
     padding-bottom: 5px;
     font-weight: normal;
-    font-size:  px;
+    font-size: 18px;
     display: inline-block;
     width: 100%;
     font-weight: 700;
@@ -2242,9 +2231,12 @@ label {
 
 /*footer*/
 .site-footer {
-    background: #68dff0;
+    background: #ffd777;
     color: #fff;
     padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 

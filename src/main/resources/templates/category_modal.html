@@ -1,0 +1,106 @@
+<th:block th:fragment="categoryModal">
+  <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog"
+       aria-labelledby="categoryModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="categoryModalLabel">카테고리 추가</h4>
+        </div>
+        <div class="modal-body">
+          <!-- 카테고리 추가 폼 시작 -->
+          <div class="form-inline">
+            <div class="form-group">
+              <label for="newCategory">새로운 카테고리:</label><br/>
+              <input type="text" class="form-control" id="newCategory">
+              <button type="button" class="btn btn-primary" onclick="addNewCategory();">추가</button>
+            </div>
+          </div>
+          <br/>
+          <!-- 카테고리 추가 폼 종료 -->
+
+          <!-- 기존 카테고리 셀렉트박스 및 선택 버튼 시작 -->
+          <div class="form-inline mt-2">
+            <div class="form-group">
+              <label for="existingCategory">기존 카테고리:</label><br/>
+              <select class="form-control" id="existingCategory">
+                <!-- 기본적으로 선택될 옵션은 없음 -->
+              </select>
+              <button type="button" class="btn btn-default ml-2"
+                      onclick="selectExistingCategory();">선택
+              </button>
+            </div>
+          </div>
+          <!-- 기존 카테고리 셀렉트박스 및 선택 버튼 종료 -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 카테고리 목록 초기화
+    var existingCategories = ["업무", "여행"];
+
+    // 모달이 열릴 때마다 기존 카테고리를 셀렉트박스에 추가하는 함수
+    $('#categoryModal').on('show.bs.modal', function (event) {
+      var existingCategorySelect = $('#existingCategory');
+      existingCategorySelect.empty(); // 기존 옵션 제거
+
+      // 기존 카테고리 목록을 셀렉트박스에 추가
+      for (var i = 0; i < existingCategories.length; i++) {
+        existingCategorySelect.append($('<option>', {
+          value: existingCategories[i],
+          text: existingCategories[i]
+        }));
+      }
+    });
+
+    // category_modal 호출
+    function openCategoryModal() {
+      $('#categoryModal').modal('show');
+    }
+
+    // 새로운 카테고리를 추가하는 함수
+    function addNewCategory() {
+      var newCategory = $('#newCategory').val().trim();
+
+      // 유효한 카테고리인지 확인
+      if (newCategory !== "") {
+        // 새로운 카테고리를 추가
+        existingCategories.push(newCategory);
+        // 기존 카테고리 셀렉트박스 업데이트
+        updateExistingCategories();
+        // 새로운 카테고리 선택
+        $('#existingCategory').val(newCategory);
+      }
+    }
+
+    // 기존 카테고리 셀렉트박스 업데이트 함수
+    function updateExistingCategories() {
+      var existingCategorySelect = $('#existingCategory');
+      existingCategorySelect.empty(); // 기존 옵션 제거
+
+      // 기존 카테고리 목록을 셀렉트박스에 추가
+      for (var i = 0; i < existingCategories.length; i++) {
+        existingCategorySelect.append($('<option>', {
+          value: existingCategories[i],
+          text: existingCategories[i]
+        }));
+      }
+    }
+
+    // "선택" 버튼을 클릭할 때 실행되는 함수
+    function selectExistingCategory() {
+      var selectedCategory = $('#existingCategory').val();
+      $('#categoryModal').modal('hide');
+      if (selectedCategory) {
+        $('#categoryPickerInput').val(selectedCategory);
+      }
+    }
+  </script>
+</th:block>
