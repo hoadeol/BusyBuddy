@@ -26,7 +26,6 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!-- 아이디 중복체크 시 1일 때 아이디 사용불가 모달 표시, 아닐때 아이디를 사용할수 없음 모달 표시 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
 
@@ -65,16 +64,13 @@
           // 회원정보 수정 진행
           // 여기에 회원정보 수정 로직을 추가하세요.
 
-          // 회원가입이 성공적으로 완료되면 다음 모달을 표시하거나 다른 처리를 수행하세요.
-          /*$('#SignupModalMessage').html('<p>BusyBuddy 에 가입하신 ' + nickname + ' 님을 환영합니다!<br> 지금 바로 할일을 작성하러 가보실까요?</p>');*/
+          // 회원정보 수정 완료 모달창
           $('#ModifyModalMessage').html('<p>회원정보 수정이 완료되었습니다.</p>');
-          $('#GoTodoButton').show(); // 회원가입 버튼 표시
+          $('#GoTodoButton').show(); // 할일 창 가게 표시
           $('#CancelButton').hide();
 
-          // 회원가입이 성공적으로 진행되었으므로 모달의 제목을 '회원가입 완료'로 변경합니다.
+          // 회원정보 수정이 성공적으로 진행되었으므로 모달의 제목을 '회원가입 완료'로 변경함
           $('#SignupModalLabel').text('회원정보 수정 완료');
-
-          // 회원가입이 성공적으로 완료되면 다음 모달을 표시하거나 다른 처리를 수행하세요.
         });
       });
     </script>
@@ -95,8 +91,6 @@
           <!-- 모달 내용은 JavaScript로 동적으로 추가됨 -->
         </div>
         <div class="modal-footer">
-          <!--<button type="button" class="btn btn-theme" id="SignupButton" data-dismiss="modal">회원가입</button>-->
-          <!--<button type="button" class="btn btn-theme btn-lg btn-block" id="SignupButton" data-dismiss="modal">할 일 작성하기</button>-->
           <button type="button" class="btn btn-theme btn-block" id="GoTodoButton" data-dismiss="modal">할 일 작성하기</button>
           <button type="button" class="btn btn-default" id="CancelButton" data-dismiss="modal">취소</button>
         </div>
