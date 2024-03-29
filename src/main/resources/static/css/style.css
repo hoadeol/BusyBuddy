@@ -253,6 +253,7 @@ ul.top-menu > li > .logout {
 #sidebar h5 {
 	color: #f2f2f2;
 	font-weight: 700;
+  font-size: large;
 }
 
 #sidebar ul li {
@@ -369,7 +370,7 @@ ul.sidebar-menu li a{
     text-decoration: none;
     display: block;
     padding: 15px 0 15px 10px;
-    font-size: 12px;
+    font-size: 14px;
     outline: none;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -414,6 +415,31 @@ ul.sidebar-menu li a.active i {
 #main-content {
     margin-left: 210px;
 }
+
+/* 글씨 크기 조정 시작*/
+#main-content .wrapper h3 {
+    font-size: 23px;
+}
+
+#main-content .control-label {
+    font-size: 15px;
+    color: #333;
+}
+
+#main-content .form-control {
+    font-size: 13px;
+}
+
+#main-content .form-panel h4 {
+    font-size: 20px; /* 원하는 크기로 설정 */
+    /* 필요에 따라 다른 스타일도 추가할 수 있습니다 */
+}
+
+.top-menu ul li a {
+    font-size: 30px; /* 원하는 크기로 수정하세요 */
+}
+
+/* 글씨 크기 조정 끝 */
 
 .header, .footer {
     min-height: 60px;
@@ -467,6 +493,12 @@ a.logo span {
 /*notification*/
 #top_menu .nav > li, ul.top-menu > li {
     float: left;
+}
+
+/*myinfo, Logout 버튼 크기랑 굵기 조절*/
+.top-menu .nav li a.logout {
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .notify-row {
