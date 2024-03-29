@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>BUSYBUDDY - Basic layout</title>
+  <th:block th:insert="~{layout :: head}"></th:block>
+</head>
+<body>
+<!-- 공통 js -->
+<th:block th:insert="~{layout :: js}"></th:block>
+
+<section id="container">
+
+  <!-- 상단바 -->
+  <th:block th:insert="~{layout :: navbar}"></th:block>
+
+  <!-- 사이드바 -->
+  <th:block th:insert="~{layout :: sidebar}"></th:block>
+
+  <!-- 본문 -->
+  <section id="main-content">
+    <section class="wrapper site-min-height"></section>
+  </section>
+
+  <!-- 푸터 -->
+  <th:block th:insert="~{layout :: footer}"></th:block>
+
+</section>
+
+<script>
+  jQuery(document).ready(function () {
+    TaskList.initTaskWidget();
+  });
+</script>
+
+</body>
+</html>

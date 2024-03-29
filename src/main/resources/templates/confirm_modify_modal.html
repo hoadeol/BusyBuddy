@@ -1,0 +1,19 @@
+<th:block th:fragment="confirmModifyModal">
+  <div class="modal fade" id="confirmModifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog special-modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="SignupModalLabel">회원가입 확인</h4>
+        </div>
+        <div class="modal-body" id="ModifyModalMessage">
+          <!-- 모달 내용은 JavaScript로 동적으로 추가됨 -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-theme btn-block" id="GoTodoButton" data-dismiss="modal">할 일 작성하기</button>
+          <button type="button" class="btn btn-default" id="CancelButton" data-dismiss="modal">취소</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</th:block>

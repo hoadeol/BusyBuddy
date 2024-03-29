@@ -1,0 +1,19 @@
+<th:block th:fragment="loginModal">
+  <!-- modal-dialog special-modal-dialog 으로 해당 모달만 CSS 처리함-->
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog special-modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">BUSYBUDDY에 로그인하지 못했습니다.</h4>
+        </div>
+        <div class="modal-body">
+          아이디/패스워드를 한번 더 확인해 주세요.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-theme" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</th:block>

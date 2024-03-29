@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>할 일 상세보기</title>
+  <th:block th:insert="~{layout :: head}"></th:block>
+</head>
+
+<body>
+<!-- 공통 js -->
+<th:block th:insert="~{layout :: js}"></th:block>
+<!-- datePicker -->
+<th:block th:insert="~{layout :: datePicker}"></th:block>
+
+<section id="container">
+  <!-- 상단바 -->
+  <th:block th:insert="~{layout :: navbar}"></th:block>
+  <!-- 사이드바 -->
+  <th:block th:insert="~{layout :: sidebar}"></th:block>
+
+  <!-- **********************************************************************************************************************************************************
+  MAIN CONTENT
+  *********************************************************************************************************************************************************** -->
+  <section id="main-content">
+    <section class="wrapper">
+      <h3><i class="fa fa-angle-right"></i> 할 일 상세보기</h3>
+
+      <div class="row mt">
+        <div class="col-lg-12">
+          <div class="form-panel">
+            <form class="form-horizontal style-form" method="get">
+              <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">날짜</label>
+                <div class="col-sm-10">
+                  <div class="input-group date">
+                    <span class="input-group-addon">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                    <input type="text" class="form-control" id="taskDate" value=""
+                           disabled="disabled">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">작업 제목</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" value="강의 듣기" disabled="disabled">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">작업 내용</label>
+                <div class="col-sm-10">
+                  <textarea type="text" class="form-control"
+                            disabled="disabled">섹션 1,2 듣기</textarea>
+                </div>
+              </div>
+            </form>
+            <div class="showback">
+              <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info" onclick="openPriorityModal();"
+                          disabled="disabled">우선순위 설정
+                  </button>
+                  <input type="text" class="form-control" id="priorityPickerInput"
+                         style="display: block;" placeholder="설정하세요" value="중간" disabled="disabled">
+                </div>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info" onclick="openCategoryModal();"
+                          disabled="disabled">카테고리 설정
+                  </button>
+                  <input type="text" class="form-control" id="categoryPickerInput"
+                         style="display: block;" placeholder="설정하세요" value="개인공부"
+                         disabled="disabled">
+                </div>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info" onclick="openDueDateModal();"
+                          disabled="disabled">마감일 설정
+                  </button>
+                  <input type="text" class="form-control" id="dueDatePickerInput"
+                         style="display: block;" placeholder="설정하세요" value="2024-02-01"
+                         disabled="disabled">
+                </div>
+              </div>
+              <br/>
+              <div style="float: right;">
+                <button type="button" class="btn btn-primary">수정하기</button>
+                <button type="button" class="btn btn-danger">삭제하기</button>
+              </div>
+              <br/><br/>
+            </div><!--/showback -->
+          </div>
+        </div><!-- col-lg-12-->
+      </div><!-- /row -->
+    </section>
+  </section>
+  <!--main content end-->
+  <!-- 푸터 -->
+  <th:block th:insert="~{layout :: footer}"></th:block>
+</section>
+
+<div id="priorityModalContainer" th:replace="/priority_modal :: priorityModal"></div>
+<div id="categoryModalContainer" th:replace="/category_modal :: categoryModal"></div>
+<div id="dueDateModalContainer" th:replace="/due_date_modal :: dueDateModal"></div>
+
+<script>
+  $(document).ready(function () {
+    TaskList.initTaskWidget();
+
+    <!--DatePicker 설정-->
+    $('#taskDate').datepicker({
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      language: 'kr',
+      autoclose: true,
+      showOnFocus: true
+    });
+    // 오늘 날짜를 설정
+    $('#taskDate').datepicker('setDate', new Date());
+  });
+</script>
+
+</body>
+</html>
