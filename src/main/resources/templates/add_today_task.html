@@ -24,7 +24,6 @@
     <section class="wrapper">
       <h3><i class="fa fa-angle-right"></i> 오늘의 할 일 추가</h3>
 
-      <!-- BASIC FORM ELELEMNTS -->
       <div class="row mt">
         <div class="col-lg-12">
           <div class="form-panel">
@@ -83,6 +82,7 @@
   <th:block th:insert="~{layout :: footer}"></th:block>
 </section>
 
+<!-- 우선순위, 카테고리, 마감일 모달 -->
 <div id="priorityModalContainer" th:replace="/priority_modal :: priorityModal"></div>
 <div id="categoryModalContainer" th:replace="/category_modal :: categoryModal"></div>
 <div id="dueDateModalContainer" th:replace="/due_date_modal :: dueDateModal"></div>

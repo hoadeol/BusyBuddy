@@ -20,7 +20,6 @@
   <!-- **********************************************************************************************************************************************************
   MAIN CONTENT
   *********************************************************************************************************************************************************** -->
-  <!--main content start-->
   <section id="main-content">
     <section class="wrapper site-min-height">
       <!--검색창-->
@@ -98,6 +97,12 @@
   <!-- 푸터 -->
   <th:block th:insert="~{layout :: footer}"></th:block>
 </section>
+
+<script>
+  jQuery(document).ready(function () {
+    TaskList.initTaskWidget();
+  });
+</script>
 
 </body>
 </html>

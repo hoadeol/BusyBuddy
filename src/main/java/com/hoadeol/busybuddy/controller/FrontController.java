@@ -62,4 +62,27 @@ public class FrontController {
     return "view_task_detail";
   }
 
+  /*회원정보 상세조회*/
+  @GetMapping("my_info")
+  public String myInfo() {
+    return "my_info";
+  }
+
+  /*로그인*/
+  @GetMapping("login")
+  public String login() {
+    return "login";
+  }
+
+  /*비밀번호 확인*/
+  @GetMapping("password_check")
+  public String passwordCheck() {
+    return "password_check";
+  }
+
+  /*회원 가입*/
+  @GetMapping("sign_up")
+  public String signUp() {
+    return "sign_up";
+  }
 }
