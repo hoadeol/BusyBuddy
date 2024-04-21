@@ -1,15 +1,16 @@
 package com.hoadeol.busybuddy.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/fronts")
 public class FrontController {
 
   /*레이아웃 적용한 기본 화면*/
   @GetMapping("basic")
-  public String basic(Model model) {
+  public String basic() {
     return "basic";
   }
 
