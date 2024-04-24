@@ -19,7 +19,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-          <button type="button" class="btn btn-primary" onclick="savePriorityModal();">확인</button>
+          <button type="button" class="btn btn-primary" onclick="savePriority();">확인</button>
         </div>
       </div>
     </div>
@@ -32,11 +32,11 @@
     }
 
     // 우선순위 모달에서 확인 버튼을 클릭
-    function savePriorityModal() {
+    function savePriority() {
       var selectedPriority = $('#prioritySelect option:selected').text();
       $('#priorityModal').modal('hide');
       if (selectedPriority) {
-        $('#priorityPickerInput').val(selectedPriority);
+        $('#priority').val(selectedPriority);
       }
     }
   </script>

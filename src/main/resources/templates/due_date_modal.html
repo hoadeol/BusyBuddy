@@ -44,7 +44,7 @@
       $('#dueDatePicker').datepicker('setDate', taskDate);
     }
 
-    // 마감일을 저장하고 모달을 닫기 위한 함수
+    // 마감일 모달에서 확인 버튼을 클릭
     function saveDueDate() {
       var selectedDueDate = $('#dueDatePicker').datepicker('getDate');
 
@@ -56,8 +56,8 @@
         var day = ('0' + selectedDueDate.getDate()).slice(-2); // 두 자리 숫자로 변환
         var formattedDueDate = year + '-' + month + '-' + day;
 
-        // $('#dueDatePickerInput')로 변경하고, 변환된 날짜로 설정
-        $('#dueDatePickerInput').val(formattedDueDate);
+        // $('#dueDate')로 변경하고, 변환된 날짜로 설정
+        $('#dueDate').val(formattedDueDate);
       }
     }
   </script>
